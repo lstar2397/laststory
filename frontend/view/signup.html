@@ -4,9 +4,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/signup.css">
     <title>회원가입</title>
 </head>
 <body>
-    <h1>회원가입</h1>
+    <div id="container">
+        <div id="information_container">
+        </div>
+        <div id="singup_container">
+            <p>회원가입</p>
+            <form action="/" method="post">
+                <input type="text" name="username" id="username" placeholder="아이디" autocomplete="off">
+                <input type="password" name="password" id="password" placeholder="비밀번호">
+                <input type="password" name="password_check" id="password_check" placeholder="비밀번호 확인">
+                <input type="text" name="nickname" id="nickname" placeholder="닉네임" autocomplete="off">
+                <input type="email" name="email" id="email" placeholder="이메일" autocomplete="off">
+                <input type="button" id="auth-button" value="인증번호 발송">
+                <input type="text" name="auth" id="auth" placeholder="인증번호" autocomplete="off">
+                <input type="submit" id="submit-button" value="회원가입">
+            </form>
+            <p>이미 아이디가 있으신가요? </p>
+            <a href="/login">로그인</a>
+        </div>
+    </div>
 </body>
 </html>
