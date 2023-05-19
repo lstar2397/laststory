@@ -106,3 +106,14 @@ a {
     position: relative;
     font-size: 12px;
 }
+
+@media only screen and (max-width: 600px) {
+    #information_container{
+        display: none;
+    }
+    #login_container {
+        width: 100%;
+        border-radius: 20px;
+    }
+
+  }
