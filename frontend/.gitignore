@@ -1,0 +1,9 @@
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### Node ###
+# Dependency directories
+node_modules/
