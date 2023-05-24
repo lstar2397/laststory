@@ -7,7 +7,7 @@ config = ConfigParser()
 config.read('config.ini')
 
 # DB connection
-client = MongoClient("mongodb+srv://User1:775vTkegfDCQYZ31@cluster0.ufel1ex.mongodb.net/")
+client = MongoClient(config['DATABASE']['ADDRESS'])
 
 db = client['test-db']
 
