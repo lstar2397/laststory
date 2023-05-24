@@ -2,40 +2,43 @@ from flask import Flask, request
 from pymongo import MongoClient
 from configparser import ConfigParser
 
-# from flask_jwt_extended import JWTManager
-
 # Config
 config = ConfigParser()
 config.read('config.ini')
 
 # DB connection
-client = MongoClient(
-    "mongodb+srv://User1:775vTkegfDCQYZ31@cluster0.ufel1ex.mongodb.net/")
+client = MongoClient("mongodb+srv://User1:775vTkegfDCQYZ31@cluster0.ufel1ex.mongodb.net/")
 
 db = client['test-db']
 
 app = Flask(__name__)
 
 
-# app.config.update(
-#     DEBUG=True,
-#     JWT_SECRET_KEY=config['JWT_SECRET_KEY']['KEY']
-# )
-
-# jwt = JWTManager(app)
-
-
-@app.route('/signup', methods=['POST'])
-def sing_up():
+@app.route('/sign_up', methods=['POST'])
+def sign_up():
     data = request.get_json(cache=False)
-    print(data)
-    id = data['username']
-    pw = data['password']
+    username = data['username']
+    password = data['password']
+    nickname = data['nickname']
+    email = data['email']
+    print(username, password, nickname, email)
+    user = db.user.find_one({'username': username})
 
-    # user = db.user.find_one({'userid': userid})
+    if user is not None:
+        return {'result': 'fail', 'message': 'username already exists'}, 409
+    else:
+        user_info = {
+            'username': username, 
+            'password': password, 
+            'nickname': nickname, 
+            'email': email
+            }
+        db.posts.insert_one(user_info)
+        return {'result': 'success'}, 200
 
-    print(id)
+
 
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000)
+
