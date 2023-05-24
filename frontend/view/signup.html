@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/signup.css">
+    <script src="/js/signup.js"></script>
     <title>회원가입</title>
 </head>
 <body>
@@ -28,9 +29,8 @@
                 </div>
                 <label for="auth">인증번호</label>
                 <input type="text" name="auth" id="auth" autocomplete="off">
-                <input type="submit" id="submit-button" value="회원가입">
+                <input type="submit" id="submit-button" onclick="vaild_signup()" value="회원가입">
             </form>
-            
         </div>
             <div id="bottom_container">
                 <p>이미 아이디가 있으신가요? </p>

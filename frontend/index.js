@@ -13,6 +13,18 @@ app.get("/signup", (req, res) => {
   res.sendFile(__dirname + "/view/signup.html");
 });
 
+app.get("/main", (req, res) => {
+  res.sendFile(__dirname + "/view/main.html");
+});
+
+app.get("/letterWirte", (req, res) => {
+  res.sendFile(__dirname + "/view/letterWirte.html");
+});
+
+app.get("/myLetterList", (req, res) => {
+  res.sendFile(__dirname + "/view/myLetterList.html");
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

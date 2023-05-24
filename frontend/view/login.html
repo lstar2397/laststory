@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/login.css">
+    <script src="/js/login.js"></script>
     <title>Login</title>
 </head>
 <body>
@@ -20,11 +21,11 @@
             </div>
         </div>
         <div id="login_container">
-            <form action="/" method="post">
+            <form action="/main" method="post">
                 <h2 id="login-title">Login</h2>
                 <input type="text" name="username" id="username" placeholder="아이디" autocomplete="off">
                 <input type="password" name="password" id="password" placeholder="비밀번호">
-                <input type="submit" id="submit-button" value="로그인">
+                <input type="submit" id="submit-button" onclick="valid_login()" value="로그인">
             </form>
             <a href="signup">회원가입</a>
         </div>
