@@ -13,6 +13,27 @@ app.get("/signup", (req, res) => {
   res.sendFile(__dirname + "/view/signup.html");
 });
 
+app.post("/signup", async (req, res) => {
+  try {
+    const response = await axios
+      .post("http://localhost:5000/sign_up", {
+        username: req.body.username,
+        password: req.body.password,
+        nickname: req.body.nickname,
+        email: req.body.email,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.get("/main", (req, res) => {
   res.sendFile(__dirname + "/view/main.html");
 });
