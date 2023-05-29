@@ -28,17 +28,14 @@ def sign_up():
         return {'result': 'fail', 'message': 'username already exists'}, 409
     else:
         user_info = {
-            'username': username, 
-            'password': password, 
-            'nickname': nickname, 
+            'username': username,
+            'password': password,
+            'nickname': nickname,
             'email': email
-            }
+        }
         db.posts.insert_one(user_info)
         return {'result': 'success'}, 200
 
 
-
-
 if __name__ == '__main__':
     app.run(host='localhost', port=5000)
-

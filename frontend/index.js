@@ -6,9 +6,33 @@ const app = express();
 const PORT = 3000 || process.env.PORT;
 
 app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/login", (req, res) => {
   res.sendFile(__dirname + "/view/login.html");
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const response = await axios
+      .post("http://localhost:5000/login", {
+        username: req.body.username,
+        password: req.body.password,
+      })
+      .then((res) => {
+        if (res.data === "success") {
+          window.location.href = "http://localhost:3000/main";
+        } else if (res.data === "fail") {
+          window.location.href = "http://localhost:3000/login";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 app.get("/signup", (req, res) => {
@@ -25,7 +49,11 @@ app.post("/signup", async (req, res) => {
         email: req.body.email,
       })
       .then((res) => {
-        console.log(res);
+        if (res.data === "success") {
+          window.location.href = "http://localhost:3000/login";
+        } else if (res.data === "fail") {
+          window.location.href = "http://localhost:3000/signup";
+        }
       })
       .catch((err) => {
         console.log(err);
