@@ -49,9 +49,9 @@ app.post("/signup", async (req, res) => {
         email: req.body.email,
       })
       .then((res) => {
-        if (res.data === "success") {
+        if (res.data.result === "success") {
           window.location.href = "http://localhost:3000/login";
-        } else if (res.data === "fail") {
+        } else if (res.data.result === "fail") {
           window.location.href = "http://localhost:3000/signup";
         }
       })
