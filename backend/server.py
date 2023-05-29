@@ -21,11 +21,11 @@ def sign_up():
     password = data['password']
     nickname = data['nickname']
     email = data['email']
-    print(username, password, nickname, email)
+
     user = db.user.find_one({'username': username})
 
     if user is not None:
-        return {'result': 'fail', 'message': 'username already exists'}, 409
+        return {'result': 'fail'}, 409
     else:
         user_info = {
             'username': username,
@@ -33,9 +33,9 @@ def sign_up():
             'nickname': nickname,
             'email': email
         }
-        db.posts.insert_one(user_info)
+        db.user.insert_one(user_info)
         return {'result': 'success'}, 200
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=5000)
+    app.run(host='[::1]', port=5000)
