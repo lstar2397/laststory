@@ -12,26 +12,18 @@ router.get("/", (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-      const response = await axios
-        .post(`${BACKEND_URL}/sign_up`, {
-          username: req.body.username,
-          password: req.body.password,
-          nickname: req.body.nickname,
-          email: req.body.email,
-        })
-        .then((res_server) => {
-          if (res_server.data.result === "success") {
+        const { username, password, nickname, email } = req.body;
+        const response = await axios.post(`${BACKEND_URL}/sign_up`, { username, password, nickname, email });
+        const { result } = response.data;
+
+        if (result === "success") {
             res.redirect("/login");
-          } else if (res_server.data.result === "fail") {
+        } else {
             res.redirect("/signup");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        }
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
 });
 
