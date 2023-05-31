@@ -24,9 +24,9 @@ app.post("/login", async (req, res) => {
       .then((res) => {
         console.log(res.data.result);
         if (res.data.result === "success") {
-          // window.location.href = "http://localhost:3000/main";
+          res.redirect("http://localhost:3000/main");
         } else if (res.data.result === "fail") {
-          //window.location.href = "http://localhost:3000/login";
+          res.redirect("http://localhost:3000/login");
         }
       })
       .catch((err) => {
@@ -51,11 +51,11 @@ app.post("/signup", async (req, res) => {
         nickname: req.body.nickname,
         email: req.body.email,
       })
-      .then((res) => {
-        if (res.data.result === "success") {
-          window.location.href = "http://localhost:3000/login";
-        } else if (res.data.result === "fail") {
-          window.location.href = "http://localhost:3000/signup";
+      .then((res_server) => {
+        if (res_server.data.result === "success") {
+          res.redirect("http://localhost:3000/login");
+        } else if (res_server.data.result === "fail") {
+          res.redirect("http://localhost:3000/signup");
         }
       })
       .catch((err) => {
