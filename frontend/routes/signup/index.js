@@ -1,3 +1,6 @@
+require("dotenv").config();
+const { BACKEND_URL } = process.env;
+
 const express = require("express");
 const axios = require("axios");
 
@@ -7,10 +10,10 @@ router.get("/", (req, res) => {
     res.sendFile("./view/signup.html", { root: __dirname + "../../../" });
 });
 
-router.post("/signup", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
       const response = await axios
-        .post("http://localhost:5001/sign_up", {
+        .post(`${BACKEND_URL}/sign_up`, {
           username: req.body.username,
           password: req.body.password,
           nickname: req.body.nickname,
@@ -18,9 +21,9 @@ router.post("/signup", async (req, res) => {
         })
         .then((res_server) => {
           if (res_server.data.result === "success") {
-            res.redirect("http://localhost:3000/login");
+            res.redirect("/login");
           } else if (res_server.data.result === "fail") {
-            res.redirect("http://localhost:3000/signup");
+            res.redirect("/signup");
           }
         })
         .catch((err) => {
