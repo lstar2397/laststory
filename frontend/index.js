@@ -1,12 +1,14 @@
 const express = require("express");
 const axios = require("axios");
 const bodyParser = require("body-parser");
+const e = require("express");
 const app = express();
 
 const PORT = 3000 || process.env.PORT;
 
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get("/login", (req, res) => {
   res.sendFile(__dirname + "/view/login.html");
@@ -20,10 +22,11 @@ app.post("/login", async (req, res) => {
         password: req.body.password,
       })
       .then((res) => {
-        if (res.data === "success") {
-          window.location.href = "http://localhost:3000/main";
-        } else if (res.data === "fail") {
-          window.location.href = "http://localhost:3000/login";
+        console.log(res.data.result);
+        if (res.data.result === "success") {
+          // window.location.href = "http://localhost:3000/main";
+        } else if (res.data.result === "fail") {
+          //window.location.href = "http://localhost:3000/login";
         }
       })
       .catch((err) => {
@@ -42,7 +45,7 @@ app.get("/signup", (req, res) => {
 app.post("/signup", async (req, res) => {
   try {
     const response = await axios
-      .post("http://localhost:5000/sign_up", {
+      .post("http://localhost:5001/sign_up", {
         username: req.body.username,
         password: req.body.password,
         nickname: req.body.nickname,
