@@ -38,7 +38,6 @@ a {
 #letterList-container {
     width: 70%;
     height: 80%;
-    background-color: aqua;
     margin: 0 auto;
 }
 
@@ -70,4 +69,14 @@ a {
 
 #search-box input {
     margin-bottom: 5px;
+}
+
+#letterListChild {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#letterListChild p {
+    margin: 0;
 }

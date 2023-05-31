@@ -29,8 +29,9 @@
   <div id="letterWirte-container">
     <form action="/letterWirte" method="post">
       <input type="text" name="title" id="title" placeholder="제목" autocomplete="off">
-      <textarea name="content" id="content" cols="70" rows="20" placeholder="내용"></textarea>
-      <input type="submit" id="submit-button" onclick="valid_letterWirte()" value="편지 쓰기">
+      <textarea name="content" id="content" placeholder="내용" ></textarea>
+      <input type="submit" id="submit-button" onclick="valid_letterWirte()" value="게시">
+      <input type="submit" id="temp-save-button" onclick="valid_letterWirte()" value="임시저장">
     </form>
 </body>
 </html>
