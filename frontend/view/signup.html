@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/signup.css">
-    <script src="/js/signup.js"></script>
     <title>회원가입</title>
 </head>
 <body>
@@ -16,7 +15,7 @@
         <div id="sigup_container">
             <p id="signup_text">회원가입</p>
             <div id="form_container">
-            <form action="/signup" method="post">
+            <form action="/signup" method="post" onsubmit="validateSignUp(event)">
                 <label for="username">아이디</label>
                 <input type="text" name="username" id="username" autocomplete="off">
                 <label for="password">비밀번호</label>
@@ -32,7 +31,7 @@
                 </div>
                 <label for="auth">인증번호</label>
                 <input type="text" name="auth" id="auth" autocomplete="off">
-                <input type="submit" id="submit-button" onclick="vaild_signup()" value="회원가입">
+                <input type="submit" id="submit-button" value="회원가입">
             </form>
         </div>
             <div id="bottom_container">
@@ -41,5 +40,6 @@
             </div>
         </div>
     </div>
+    <script src="/js/validation.js"></script>
 </body>
 </html>
