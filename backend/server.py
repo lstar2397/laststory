@@ -1,3 +1,4 @@
+import bcrypt
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from configparser import ConfigParser
@@ -33,13 +34,26 @@ def sign_up():
     else:
         user_info = {
             'username': username,
-            'password': password,
+            'password': bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()),
             'nickname': nickname,
             'email': email
         }
         db.user.insert_one(user_info)
         return jsonify({'result': 'success'}), 200
 
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json(cache=False)
 
+    username = data['username']
+    password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+
+    user_check = db.user.find_one({'username': username}, {'password': password})
+
+    if user_check is None:
+        return jsonify({'result': 'fail'}), 400
+    else:
+        return jsonify({'result': 'success'})
+    
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
