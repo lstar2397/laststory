@@ -1,7 +1,8 @@
-import bcrypt
-from flask import Flask, request, jsonify
+import bcrypt, smtplib, random
+from flask import Flask, request, jsonify, session
 from pymongo import MongoClient
 from configparser import ConfigParser
+from email.message import EmailMessage
 
 # Config
 config = ConfigParser()
@@ -14,7 +15,7 @@ db = client['test-db']
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
-
+app.secret_key = config['SECRET_KEY']['KEY']
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
@@ -41,6 +42,7 @@ def sign_up():
         db.user.insert_one(user_info)
         return jsonify({'result': 'success'}), 200
 
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json(cache=False)
@@ -55,5 +57,32 @@ def login():
     else:
         return jsonify({'result': 'success'})
     
+
+@app.route('/authentication', methods=['POST'])
+def email_send():
+    data = request.get_json(cache=False)
+
+    email_server = config['EMAIL_SENDER']['EMAIL_SERVER']
+    email_port = config['EMAIL_SENDER']['EMAIL_PORT']
+    random_number = str(random.randint(0, 999999)).zfill(6)
+
+    msg = EmailMessage()
+    msg['Subject'] = 'Last Story 이메일 인증'
+    msg['From'] = config['EMAIL_SENDER']['EMAIL_ADDRESS']
+    msg['To'] = data['email']
+    msg.set_content('인증번호 : ' + random_number)
+
+    smtp = smtplib.SMTP(email_server, email_port)
+    smtp.ehlo()
+    smtp.starttls()
+    smtp.login(config['EMAIL_SENDER']['EMAIL_ADDRESS'], config['EMAIL_SENDER']['EMAIL_PASSWORD'])
+    smtp.send_message(msg)
+
+    smtp.close()
+    session['auth_num'] = random_number
+    return jsonify({'result': 'success'}), 200
+
+    
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
