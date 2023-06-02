@@ -82,6 +82,17 @@ def email_send():
     session['auth_num'] = random_number
     return jsonify({'result': 'success'}), 200
 
+
+@app.route('/verify', methods=['POST'])
+def verify():
+    data = request.get_json(cache=False)
+
+    if data['auth_num'] == session['auth_num']:
+        session.pop('auth_num')
+        return jsonify({'result': 'success'}), 200
+    else:
+        session.pop('auth_num')
+        return jsonify({'result': 'fail'}), 400
     
 
 if __name__ == '__main__':
