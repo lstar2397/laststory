@@ -45,3 +45,24 @@ function validateLogin(event) {
         }
     }
 }
+
+function authSend () {
+    const email = document.getElementById("email").value;
+    
+    fetch("/signup/authentication", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+    })
+    .then((res) => res.json())
+    .then((res) => {
+        if (res.result === "success") {
+            alert("인증번호가 전송되었습니다.");
+        } else {
+            alert("인증번호 전송에 실패하였습니다.");
+        }
+    }
+    );
+}

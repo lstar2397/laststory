@@ -27,4 +27,24 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.post("/authentication", async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const response = await axios.post(`${BACKEND_URL}/authentication`, { email });
+        const { result } = response.data;
+
+        console.log("result: ", result);
+
+        if (result === "success") {
+            res.status(200).json({ result: "success" });
+        } else {
+            res.status(400).json({ result: "fail" });
+        }
+    } catch (error) {
+        //console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 module.exports = router;
