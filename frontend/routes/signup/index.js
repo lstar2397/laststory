@@ -12,8 +12,8 @@ router.get("/", (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-        const { username, password, nickname, email } = req.body;
-        const response = await axios.post(`${BACKEND_URL}/sign_up`, { username, password, nickname, email });
+        const { username, password, nickname, email, auth} = req.body;
+        const response = await axios.post(`${BACKEND_URL}/sign_up`, { username, password, nickname, email, auth});
         const { result } = response.data;
 
         if (result === "success") {
@@ -30,7 +30,6 @@ router.post("/", async (req, res) => {
 router.post("/authentication", async (req, res) => {
     try {
         const { email } = req.body;
-
         const response = await axios.post(`${BACKEND_URL}/authentication`, { email });
         const { result } = response.data;
 
@@ -42,7 +41,7 @@ router.post("/authentication", async (req, res) => {
             res.status(400).json({ result: "fail" });
         }
     } catch (error) {
-        //console.error(error);
+        console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
