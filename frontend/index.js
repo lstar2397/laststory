@@ -20,7 +20,6 @@ app.get("/main", (req, res) => {
   res.sendFile(__dirname + "/view/main.html");
 });
 
-
 app.get("/myLetterList", (req, res) => {
   res.sendFile(__dirname + "/view/myLetterList.html");
 });
