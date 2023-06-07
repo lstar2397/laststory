@@ -10,22 +10,18 @@ router.get("/", (req, res) => {
     res.sendFile("./view/letterWrite.html", { root: __dirname + "../../../" });
 });
 
-
-router.post("/tempWrite", async (req, res) => {
+router.post("/tempSave", async (req, res) => {
     try {
-        const {title, content} = req.body;
-
-        console.log("title", title);
-        console.log("content", content)
-        const response = await axios.post(`${BACKEND_URL}/tempWrite`, {title, content});
+        const { encrypted } = req.body;
+        const response = await axios.post(`${BACKEND_URL}/tempSave`, { encrypted });
         const { result } = response.data;
 
         if (result === "success") {
-            res.redirect("/main");
+            res.status(200).json({ result: "success" });
         } else {
-            res.redirect("/letterWrite");
-        } 
-    }catch (error) {
+            res.status(400).json({ result: "fail" });
+        }
+    } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
