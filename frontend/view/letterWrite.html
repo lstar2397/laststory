@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/js/letterWirte.js"></script>
+  <script src="/js/letterWrite.js"></script>
   <link rel="stylesheet" href="/css/letterWirte.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,8 +32,8 @@
     <form action="/letterWirte" method="post">
       <input type="text" name="title" id="title" placeholder="제목" autocomplete="off">
       <textarea name="content" id="content" placeholder="내용"></textarea>
-      <input type="submit" id="submit-button" onclick="valid_letterWirte()" value="게시">
-      <input type="submit" id="temp-save-button" onclick="valid_letterWirte()" value="임시저장">
+      <input type="submit" id="submit-button" value="게시">
+      <input type="submit" id="temp-save-button" formaction="/tempWrite" value="임시저장">
     </form>
 </body>
 

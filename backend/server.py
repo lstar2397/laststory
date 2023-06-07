@@ -15,7 +15,7 @@ db = client['test-db']
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
-app.secret_key = config['JWT_SECRET_KEY']['KEY']
+app.secret_key = config['SECRET_KEY']['KEY']
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():

@@ -13,6 +13,7 @@ function validateSignUp(event) {
         { field: "username", value: username, message: "아이디를 입력해주세요." },
         { field: "password", value: password, message: "비밀번호를 입력해주세요." },
         { field: "password_check", value: password_check, message: "비밀번호 확인을 입력해주세요." },
+        { field: "password_length", value: password.length >= 8, message: "비밀번호는 8자 이상이어야 합니다."},
         { field: "password_match", value: password === password_check, message: "비밀번호가 일치하지 않습니다." },
         { field: "nickname", value: nickname, message: "닉네임을 입력해주세요." },
         { field: "email", value: email, message: "이메일을 입력해주세요." },

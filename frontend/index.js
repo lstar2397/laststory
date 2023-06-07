@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 
 const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
+const letterWriteRouter = require("./routes/letterWrite");
 
 const app = express();
 const PORT = 3000 || process.env.PORT;
@@ -19,7 +20,7 @@ app.get("/main", (req, res) => {
 });
 
 app.get("/letterWirte", (req, res) => {
-  res.sendFile(__dirname + "/view/letterWirte.html");
+  res.sendFile(__dirname + "/view/letterWrite.html");
 });
 
 app.get("/myLetterList", (req, res) => {
