@@ -6,10 +6,17 @@ const axios = require("axios");
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+    res.sendFile("./view/letterWrite.html", { root: __dirname + "../../../" });
+});
+
 
 router.post("/tempWrite", async (req, res) => {
     try {
         const {title, content} = req.body;
+
+        console.log("title", title);
+        console.log("content", content)
         const response = await axios.post(`${BACKEND_URL}/tempWrite`, {title, content});
         const { result } = response.data;
 
@@ -24,3 +31,4 @@ router.post("/tempWrite", async (req, res) => {
     }
 });
 
+module.exports = router;

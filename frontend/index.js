@@ -14,14 +14,12 @@ app.use(express.json());
 
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
+app.use("/letterWrite", letterWriteRouter);
 
 app.get("/main", (req, res) => {
   res.sendFile(__dirname + "/view/main.html");
 });
 
-app.get("/letterWirte", (req, res) => {
-  res.sendFile(__dirname + "/view/letterWrite.html");
-});
 
 app.get("/myLetterList", (req, res) => {
   res.sendFile(__dirname + "/view/myLetterList.html");
