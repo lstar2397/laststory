@@ -9,11 +9,10 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const response = await axios.get(`${BACKEND_URL}/login`);
   const { result } = response.data;
-
-  if (result === "false") {
+  if (result === "fail") {
     res.sendFile("./view/login.html", { root: __dirname + "../../../" });
   } else {
-    res.redirect("/main");
+    res.sendFile("./view/main.html", { root: __dirname + "../../../" });
   }
 });
 
@@ -24,9 +23,12 @@ router.post("/", async (req, res) => {
       username,
       password,
     });
-    const { result } = response.data;
+    const { result, access_token, refresh_token } = response.data;
 
     if (result === "success") {
+      console.log(access_token)
+      res.cookie("access_token", access_token);
+      res.cookie("refresh_token", refresh_token);
       res.redirect("/main");
     } else {
       res.redirect("/login");
