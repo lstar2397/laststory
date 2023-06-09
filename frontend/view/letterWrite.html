@@ -35,12 +35,7 @@
     <form action="/letterWrite" method="post">
       <input type="text" name="title" id="title" placeholder="제목" autocomplete="off">
       <textarea name="content" id="content" placeholder="내용"></textarea>
-      <input type="submit" id="submit-button" value="게시" onclick="postLetter(event)">
-      <div id="popup" class="popup">
-        <h2>게시</h2>
-        <p>게시하시겠습니까?</p>
-        <button onclick="closePopup()">취소</button>
-      </div>
+      <input type="button" id="btn-modal" value="게시" onclick="postLetter(event)">
       <input type="submit" id="temp-save-button" value="임시저장" onclick="tempSave(event)">
     </form>
 </body>
