@@ -37,7 +37,7 @@ router.post("/authentication", async (req, res) => {
   try {
     const { username, email } = req.body;
     const response = await axios.post(`${BACKEND_URL}/authentication`, {
-      uesrname,
+      username,
       email,
     });
     const { result } = response.data;
