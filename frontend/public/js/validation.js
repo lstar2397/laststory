@@ -13,6 +13,7 @@ function validateSignUp(event) {
         { field: "username", value: username, message: "아이디를 입력해주세요." },
         { field: "password", value: password, message: "비밀번호를 입력해주세요." },
         { field: "password_check", value: password_check, message: "비밀번호 확인을 입력해주세요." },
+        { field: "password_length", value: password.length >= 8, message: "비밀번호는 8자 이상이어야 합니다."},
         { field: "password_match", value: password === password_check, message: "비밀번호가 일치하지 않습니다." },
         { field: "nickname", value: nickname, message: "닉네임을 입력해주세요." },
         { field: "email", value: email, message: "이메일을 입력해주세요." },
@@ -44,4 +45,25 @@ function validateLogin(event) {
             return;
         }
     }
+}
+
+function authSend () {
+    const email = document.getElementById("email").value;
+    
+    fetch("/signup/authentication", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+    })
+    .then((res) => res.json())
+    .then((res) => {
+        if (res.result === "success") {
+            alert("인증번호가 전송되었습니다.");
+        } else {
+            alert("인증번호 전송에 실패하였습니다.");
+        }
+    }
+    );
 }

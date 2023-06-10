@@ -5,12 +5,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="/js/letterWirte.js"></script>
-  <link rel="stylesheet" href="/css/letterWirte.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="/js/letterWrite.js"></script>
+  <link rel="stylesheet" href="/css/letterWrite.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
+
   <title>편지 쓰기</title>
 </head>
 
@@ -20,7 +23,7 @@
     <nav id="menu-bar">
       <ul>
         <li><a href="main">편지 리스트</a></li>
-        <li><a href="letterWirte">편지 쓰기</a></li>
+        <li><a href="letterWrite">편지 쓰기</a></li>
         <li><a href="myLetterList ">내 편지 리스트</a></li>
       </ul>
     </nav>
@@ -28,12 +31,12 @@
   <div id="menu-select-container">
     <h3>편지 쓰기</h3>
   </div>
-  <div id="letterWirte-container">
-    <form action="/letterWirte" method="post">
+  <div id="letterWrite-container">
+    <form action="/letterWrite" method="post">
       <input type="text" name="title" id="title" placeholder="제목" autocomplete="off">
       <textarea name="content" id="content" placeholder="내용"></textarea>
-      <input type="submit" id="submit-button" onclick="valid_letterWirte()" value="게시">
-      <input type="submit" id="temp-save-button" onclick="valid_letterWirte()" value="임시저장">
+      <input type="button" id="btn-modal" value="게시" onclick="postLetter(event)">
+      <input type="submit" id="temp-save-button" value="임시저장" onclick="tempSave(event)">
     </form>
 </body>
 
