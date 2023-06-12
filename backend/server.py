@@ -1,9 +1,9 @@
-import bcrypt, smtplib, random
+import bcrypt, smtplib, random, datetime, jwt
 from flask import Flask, request, jsonify, session
 from pymongo import MongoClient
 from configparser import ConfigParser
 from email.message import EmailMessage
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
 # Config
 config = ConfigParser()
@@ -18,7 +18,37 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 app.config['JWT_SECRET_KEY'] = config['SECRET_KEY']['KEY']
 jwt = JWTManager(app)
 
+def is_token_expired(token):
+    try:
+        payload = jwt.decode(token, verify=False)
+        exp = payload['exp']
+        current_time = datetime.utcnow().timestamp()
+        return current_time > exp
+    except jwt.ExpiredSignatureError:
+        return True
+    except (jwt.DecodeError, jwt.InvalidTokenError):
+        return True
 
+@jwt_required(optional=True)
+def check_user():
+    access_token = request.headers.get('Authorization')
+    if access_token:
+        access_token = access_token.split(' ')[1]  # Remove "Bearer" prefix
+        if is_token_expired(access_token):
+            return {'result': 'fail'}
+
+    current_user = get_jwt_identity()
+    check_user_db = db.user.find_one({'username': current_user})
+    
+    if current_user and check_user_db:
+        return {'result': 'success'}
+    
+    refresh_token = request.cookies.get('refresh_token')
+    if refresh_token:
+        new_access_token = create_access_token(identity=current_user)
+        return {'result': 'success', 'access_token': new_access_token}
+    
+    return {'result': 'fail'}
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
@@ -30,8 +60,9 @@ def sign_up():
     email = data['email']
     auth = data['auth']
 
+    authentication_num = db.certification.find_one({'username': username})['authenticationNumber']
 
-    if not auth == session.get('auth_num'):
+    if not auth == authentication_num:
         return jsonify({'result': 'fail'}), 400
     else:
         user = db.user.find_one({'username': username})
@@ -48,6 +79,10 @@ def sign_up():
             db.user.insert_one(user_info)
             return jsonify({'result': 'success'}), 200
 
+@app.route('/login', methods=['GET'])
+@jwt_required(optional=True)
+def login_check():
+    return check_user()
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -60,8 +95,9 @@ def login():
     if user_check is None:
         return jsonify({'result': 'fail'}), 401
     else:
-        access_token = create_access_token(identity=username)
-    return jsonify({'result': 'success', 'token': access_token}), 200
+        access_token = create_access_token(identity=username, expires_delta=datetime.timedelta(seconds=30))
+        refresh_token = create_access_token(identity=username, expires_delta=datetime.timedelta(days=1))
+    return jsonify({'result': 'success', 'access_token': access_token, 'refresh_token': refresh_token}), 200
 
 
 @app.route('/authentication', methods=['POST'])
@@ -85,11 +121,18 @@ def email_send():
     smtp.send_message(msg)
 
     smtp.close()
-    session['auth_num'] = random_number
+
+    authentication_info = {
+        'createdAt': datetime.datetime.utcnow(),
+        'username': data['username'],
+        'authenticationNumber': random_number
+    }
+    db.certification.insert_one(authentication_info)
     return jsonify({'result': 'success'}), 200
     
 @app.route('/logout', methods=['GET'])
 def logout():
+    
     return jsonify({'logout': 'success'}), 200
 
 
