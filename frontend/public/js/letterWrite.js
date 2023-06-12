@@ -41,10 +41,9 @@ function tempSave(event) {
 
 function postLetter(event) {
   event.preventDefault();
-  const popup = document.getElementById("popup");
-  popup.style.display = "block";
+  document.getElementById("modal").style.display = "flex";
 }
 
-function closePopup() {
-  popup.style.display = "none";
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
 }
