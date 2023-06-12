@@ -35,9 +35,17 @@
     <form action="/letterWrite" method="post">
       <input type="text" name="title" id="title" placeholder="제목" autocomplete="off">
       <textarea name="content" id="content" placeholder="내용"></textarea>
-      <input type="button" id="btn-modal" value="게시" onclick="postLetter(event)">
+      <input type="button" id="btn-modal" class="btn-modal" value="게시">
       <input type="submit" id="temp-save-button" value="임시저장" onclick="tempSave(event)">
     </form>
+  </div>
+  <div class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Modal Title</h2>
+      <p>Modal content goes here...</p>
+    </div>
+  </div>
 </body>
 
 </html>

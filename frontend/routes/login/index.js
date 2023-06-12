@@ -26,7 +26,6 @@ router.post("/", async (req, res) => {
     const { result, access_token, refresh_token } = response.data;
 
     if (result === "success") {
-      console.log(access_token)
       res.cookie("access_token", access_token);
       res.cookie("refresh_token", refresh_token);
       res.redirect("/main");

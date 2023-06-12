@@ -22,7 +22,7 @@ function tempSave(event) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ encrypted }),
+      body: JSON.stringify({ title, encrypted }),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -39,11 +39,22 @@ function tempSave(event) {
   }
 }
 
-function postLetter(event) {
-  event.preventDefault();
-  document.getElementById("modal").style.display = "flex";
-}
+document.addEventListener("DOMContentLoaded", function () {
+  const btnOpenModal = document.querySelector(".btn-modal");
+  const modal = document.querySelector(".modal");
+  const closeBtn = document.querySelector(".close");
 
-function closeModal() {
-  document.getElementById("modal").style.display = "none";
-}
+  btnOpenModal.addEventListener("click", function () {
+    modal.style.display = "block";
+  });
+
+  closeBtn.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+
+  window.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});

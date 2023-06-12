@@ -40,9 +40,8 @@ router.post("/authentication", async (req, res) => {
       username,
       email,
     });
-    const { result } = response.data;
 
-    console.log("result: ", result);
+    const { result } = response.data;
 
     if (result === "success") {
       res.status(200).json({ result: "success" });
