@@ -48,10 +48,8 @@
         <p>비공개 편지는 작성자와 공개대상만 볼 수 있습니다.</p>
         <p>공개 시간</p>
         <input type="date" name="publicDate" id="publicDate">
-        <input type="time" name="publicTime" id="publicTime">
         <p>공개 대상</p>
-        <input type="email" name="publicTarget" id="publicTarget" placeholder="공개 대상을 입력하세요.">
-        <input type="button" id="addTarget" value="+">
+        <input type="email" name="publicTarget" id="publicTarget" class="publicTarget" placeholder="공개 대상을 입력하세요.">
       </div>
       <button id="pushLetter" onclick="pushLetter(event)">게시</button>
     </div>

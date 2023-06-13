@@ -136,7 +136,7 @@ def logout():
     return jsonify({'logout': 'success'}), 200
 
 
-@app.route('/tempWrite', methods=['POST'])
+@app.route('/tempSave', methods=['POST'])
 def write():
     data = request.get_json(cache=False)
     print(data)

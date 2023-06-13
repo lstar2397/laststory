@@ -44,9 +44,7 @@ function pushLetter(event) {
   const content = document.getElementById("content").value;
 
   const publicDate = document.getElementById("publicDate").value;
-  const publicTime = document.getElementById("publicTime").value;
-  const publicDateTime = publicDate + " " + publicTime;
-  const publicDateObj = new Date(publicDateTime);
+  const publicDateObj = new Date(publicDate);
   const now = new Date();
 
   if (publicDateObj < now) {
@@ -55,7 +53,8 @@ function pushLetter(event) {
   }
 
   const publicTarget = document.getElementById("publicTarget").value;
-  console.log(title, content, publicDateTime, publicTarget);
+
+  console.log(title, content, publicTarget);
 }
 
 function tempSave(event) {
@@ -66,7 +65,8 @@ function tempSave(event) {
   const privateKey = prompt("임시 저장을 위한 비밀번호를 입력해주세요.");
   if (!privateKey) {
     alert("비밀번호를 입력해주세요.");
-  } else {
+  }
+  if (privateKey) {
     const data = {
       title,
       content,
@@ -75,14 +75,13 @@ function tempSave(event) {
       JSON.stringify(data),
       privateKey
     ).toString();
-    console.log(encrypted);
 
     fetch("/letterWrite/tempSave", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ encrypted }),
+      body: JSON.stringify({ title, encrypted }),
     })
       .then((res) => res.json())
       .then((res) => {
