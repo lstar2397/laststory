@@ -42,7 +42,7 @@ router.get("/logout", async (req, res) => {
     const { result } = response.data;
 
     if (result === "success") {
-      res.redirect("/login");
+      res.send({ result: "success" });
     }
   } catch (error) {
     console.error(error);

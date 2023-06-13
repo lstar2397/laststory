@@ -21,3 +21,15 @@ document.addEventListener("DOMContentLoaded", function () {
     location.href = "login";
   });
 });
+
+function logout() {
+  fetch("/login/logout", {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.result === "success") {
+        location.href = "login";
+      }
+    });
+}
