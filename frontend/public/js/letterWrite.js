@@ -1,8 +1,11 @@
+const { WEB3_STORAGE_TOKEN } = require("../config");
+
+console.log(WEB3_STORAGE_TOKEN);
+
 document.addEventListener("DOMContentLoaded", function () {
   const btnOpenModal = document.querySelector(".btn-modal");
   const modal = document.querySelector(".modal");
   const closeModalBtn = document.querySelector(".close");
-  const letterPrivate = document.querySelector(".letter-Private");
 
   btnOpenModal.addEventListener("click", function () {
     const title = document.getElementById("title").value;
@@ -28,18 +31,9 @@ document.addEventListener("DOMContentLoaded", function () {
       modal.style.display = "none";
     }
   });
-
-  addTarget.addEventListener("click", function () {
-    const emailInput = document.createElement("input");
-    emailInput.type = "email";
-    emailInput.name = "publicTarget";
-    emailInput.placeholder = "공개 대상을 입력하세요.";
-
-    letterPrivate.appendChild(emailInput);
-  });
 });
 
-function pushLetter(event) {
+async function pushLetter(event) {
   const title = document.getElementById("title").value;
   const content = document.getElementById("content").value;
 
@@ -54,7 +48,28 @@ function pushLetter(event) {
 
   const publicTarget = document.getElementById("publicTarget").value;
 
-  console.log(title, content, publicTarget);
+  const filename = `letter-${now}.txt`;
+  const file = new File([content], filename, { type: "text/plain" });
+
+  const cid = await uploadFile(file, filename);
+}
+
+async function uploadFile(file, filename) {
+  const formData = new FormData();
+  formData.append("file", file, filename);
+
+  const response = await fetch("https://api.web3.storage/upload", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${WEB3_STORAGE_TOKEN}`,
+      Accept: "application/json",
+      "X-NAME": filename,
+    },
+    body: formData,
+  });
+  const result = await response.json();
+
+  return result.cid;
 }
 
 function tempSave(event) {
