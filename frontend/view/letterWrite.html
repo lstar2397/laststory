@@ -44,24 +44,16 @@
       <span class="close">&times;</span>
       <h2>편지를 게시하겠습니까?</h2>
       <p>게시된 편지는 수정 및 삭제가 불가능합니다.</p>
-      <p>공개 여부 결정</p>
-      <input type="radio" name="public" id="public" value="1" checked>공개
-      <input type="radio" name="public" id="private" value="0">비공개
-      <br>
-      <div class="letter-Public">
-        <p>공개 편지는 다른 사람들이 볼 수 있습니다.</p>
-      </div>
       <div class="letter-Private">
-        <p>비공개 편지는 나와 설정한 사람만 볼 수 있습니다.</p>
+        <p>비공개 편지는 작성자와 공개대상만 볼 수 있습니다.</p>
         <p>공개 시간</p>
         <input type="date" name="publicDate" id="publicDate">
         <input type="time" name="publicTime" id="publicTime">
         <p>공개 대상</p>
-        <input type="button" id="publishBtn" value="+">
         <input type="email" name="publicTarget" id="publicTarget" placeholder="공개 대상을 입력하세요.">
+        <input type="button" id="addTarget" value="+">
       </div>
-
-      <button id="btn-yes">게시</button>
+      <button id="pushLetter" onclick="pushLetter(event)">게시</button>
     </div>
   </div>
 </body>
