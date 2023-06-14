@@ -29,7 +29,7 @@ def is_token_exist(token):
 
         try:
             # 토큰 디코딩
-            decoded_token = jwt.decode(token, 'secret_key', algorithms=['HS256'])
+            decoded_token = jwt.decode(token, app.secret_key, algorithms=['HS256'])
             data = json.loads(decoded_token['data'])
             return data
         except jwt.ExpiredSignatureError:    # 토큰 만료 시 예외 처리
