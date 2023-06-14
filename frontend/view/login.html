@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/login.css">
+    <script src="/js/loginCheck.js"></script>
     <title>Login</title>
 </head>
 <body>
@@ -25,7 +26,7 @@
                 <h2 id="login-title">Login</h2>
                 <input type="text" name="username" id="username" placeholder="아이디" autocomplete="off">
                 <input type="password" name="password" id="password" placeholder="비밀번호">
-                <input type="submit" id="submit-button" value="로그인">
+                <input type="submit" id="submit-button" value="로그인" onclick="login(event)">
             </form>
             <a href="signup">회원가입</a>
         </div>
