@@ -18,6 +18,7 @@ services:
       - traefik.http.routers.laststory-ui-http.service=laststory-ui
       - traefik.http.services.laststory-ui.loadbalancer.server.port=3000
     networks:
+      - web
       - laststory-network
   laststory-backend:
     build: ./backend
@@ -28,5 +29,7 @@ services:
     networks:
       - laststory-network
 networks:
+  web:
+    external: true
   laststory-network:
     driver: bridge
