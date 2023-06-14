@@ -1,18 +1,57 @@
-// MetaMask 계정 값 가져오기
-async function getMetaMaskAccount() {
-  // MetaMask 계정에 연결된 웹3 프로바이더 객체 가져오기
-  const provider = window.ethereum;
-
-  // MetaMask 계정 사용자 권한 요청
-  await provider.enable();
-
-  // 연결된 계정 주소 가져오기
-  const accounts = await provider.request({ method: "eth_accounts" });
-
-  // 첫 번째 계정 주소 반환 (MetaMask는 여러 계정 지원)
-  if (accounts.length > 0) {
-    return accounts[0];
-  } else {
-    throw new Error("MetaMask 계정을 찾을 수 없습니다.");
+function handleAccountsChanged(accounts) {
+  if (accounts.length === 0) {
+    console.log("Account changed to none");
+  } else if (accounts[0] !== userAccount) {
+    console.log("Account changed!");
+    console.log(`old account: ${userAccount}, new account: ${accounts[0]}`);
+    userAccount = accounts[0];
   }
 }
+
+document.addEventListener("DOMContentLoaded", async function () {
+  let provider;
+  let contract;
+
+  if (window.ethereum) {
+    provider = window.ethereum;
+    web3 = new web3(provider);
+
+    try {
+      let accounts = await provider.request({ method: "eth_requestAccounts" });
+      handleAccountsChanged(accounts);
+
+      provider.on("accountsChanged", handleAccountsChanged);
+    } catch (error) {
+      console.error("User denied account access");
+      console.error(error);
+    }
+  } else {
+    console.log("Metamask를 찾을 수 없습니다.");
+  }
+
+  //  contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+});
+
+// function sendLetter(receiverAddress, contentIdentifier) {
+//   return contract.methods
+//     .send(receiverAddress, contentIdentifier)
+//     .send({ from: userAccount })
+//     .then(function (receipt) {
+//       console.log(receipt);
+//     })
+//     .catch(function (error) {
+//       console.error(error);
+//     });
+// }
+
+// function getLetter(letterId) {
+//   return contract.methods
+//     .get(letterId)
+//     .call()
+//     .then(function (result) {
+//       console.log(result);
+//     })
+//     .catch(function (error) {
+//       console.error(error);
+//     });
+// }

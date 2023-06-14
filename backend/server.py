@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, session
 from pymongo import MongoClient
 from configparser import ConfigParser
 from email.message import EmailMessage
-import redis
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
 # Config
 config = ConfigParser()
@@ -15,12 +15,40 @@ db = client['test-db']
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+app.config['JWT_SECRET_KEY'] = config['SECRET_KEY']['KEY']
+jwt = JWTManager(app)
 
-# 비밀 키 설정
-app.secret_key = config['SECRET_KEY']['KEY']
-redis_client = redis.Redis(host='localhost', port=6379)
+def is_token_expired(token):
+    try:
+        payload = jwt.decode(token, verify=False)
+        exp = payload['exp']
+        current_time = datetime.utcnow().timestamp()
+        return current_time > exp
+    except jwt.ExpiredSignatureError:
+        return True
+    except (jwt.DecodeError, jwt.InvalidTokenError):
+        return True
 
+@jwt_required(optional=True)
+def check_user():
+    access_token = request.headers.get('Authorization')
+    if access_token:
+        access_token = access_token.split(' ')[1]  # Remove "Bearer" prefix
+        if is_token_expired(access_token):
+            return {'result': 'fail'}
 
+    current_user = get_jwt_identity()
+    check_user_db = db.user.find_one({'username': current_user})
+    
+    if current_user and check_user_db:
+        return {'result': 'success'}
+    
+    refresh_token = request.cookies.get('refresh_token')
+    if refresh_token:
+        new_access_token = create_access_token(identity=current_user)
+        return {'result': 'success', 'access_token': new_access_token}
+    
+    return {'result': 'fail'}
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
@@ -51,33 +79,25 @@ def sign_up():
             db.user.insert_one(user_info)
             return jsonify({'result': 'success'}), 200
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET'])
+@jwt_required(optional=True)
+def login_check():
+    return check_user()
 
+@app.route('/login', methods=['POST'])
 def login():
-    if request.method == 'GET':
-        exists = redis_client.exists('username')
-        if not exists:
-            return jsonify({'result': 'fail'}) 
-        else:
-            return jsonify({'result': 'success'}), 200
+    data = request.get_json(cache=False)
+
+    username = data['username']
+    password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+    user_check = db.user.find_one({'username': username}, {'password': password})
+
+    if user_check is None:
+        return jsonify({'result': 'fail'}), 401
     else:
-        data = request.get_json(cache=False)
-
-        username = data['username']
-        password = data['password']
-        user_check = db.user.find_one({'username': username})
-        if user_check is not None and bcrypt.checkpw(password.encode('utf-8'), user_check['password']):
-            redis_client.setex('username', 30, username)
-            # 세션 데이터 가져오기
-            session_data = redis_client.get('username')
-            # 세션 데이터 출력
-            print(session_data)
-
-            
-            return jsonify({'result': 'success'}), 200
-        else:
-            # 로그인 실패
-            return jsonify({'result': 'fail'}), 401
+        access_token = create_access_token(identity=username, expires_delta=datetime.timedelta(seconds=30))
+        refresh_token = create_access_token(identity=username, expires_delta=datetime.timedelta(days=1))
+    return jsonify({'result': 'success', 'access_token': access_token, 'refresh_token': refresh_token}), 200
 
 
 @app.route('/authentication', methods=['POST'])
@@ -112,28 +132,14 @@ def email_send():
     
 @app.route('/logout', methods=['GET'])
 def logout():
-    redis_client.flushall()
-    return jsonify({'result': 'success'}), 200
+    
+    return jsonify({'logout': 'success'}), 200
 
 
 @app.route('/tempSave', methods=['POST'])
 def write():
     data = request.get_json(cache=False)
-    title = data['title']
-    encrypted = data['encrypted']
-    username = redis_client.get('username')
-    print(username)
-    if username is None:
-        return jsonify({'result': 'fail'}), 400
-    else:
-        tempPosts = {
-            'username': username,
-            'writing_time': datetime.datetime.utcnow(),
-            'title': title,
-            'encrypted' : encrypted
-        }
-        db.temp_post.insert_one(tempPosts)
-        return jsonify({'result': 'success'}), 200
+    print(data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001)
