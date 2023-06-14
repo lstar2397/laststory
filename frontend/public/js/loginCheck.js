@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   logoutButton.addEventListener("click", function (event) {
     event.preventDefault();
-    sessionStorage.clear();
     location.href = "login";
   });
 });

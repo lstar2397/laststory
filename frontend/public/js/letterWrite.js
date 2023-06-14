@@ -1,7 +1,3 @@
-const { WEB3_STORAGE_TOKEN } = require("../config");
-
-console.log(WEB3_STORAGE_TOKEN);
-
 document.addEventListener("DOMContentLoaded", function () {
   const btnOpenModal = document.querySelector(".btn-modal");
   const modal = document.querySelector(".modal");
@@ -51,10 +47,17 @@ async function pushLetter(event) {
   const filename = `letter-${now}.txt`;
   const file = new File([content], filename, { type: "text/plain" });
 
-  const cid = await uploadFile(file, filename);
+  const cid = await uploadFileToIpfs(file, filename);
+
+  alert("CID: " + cid);
+  console.log("CID: " + cid);
+
+  // cid
+  // 공개시간
+  // 공개 대상 지갑주소
 }
 
-async function uploadFile(file, filename) {
+async function uploadFileToIpfs(file, filename) {
   const formData = new FormData();
   formData.append("file", file, filename);
 
@@ -63,10 +66,11 @@ async function uploadFile(file, filename) {
     headers: {
       Authorization: `Bearer ${WEB3_STORAGE_TOKEN}`,
       Accept: "application/json",
-      "X-NAME": filename,
     },
     body: formData,
   });
+
+  console.log(response);
   const result = await response.json();
 
   return result.cid;
@@ -76,6 +80,15 @@ function tempSave(event) {
   event.preventDefault();
   const title = document.getElementById("title").value;
   const content = document.getElementById("content").value;
+
+  if (title === "") {
+    alert("제목을 입력해주세요.");
+    return;
+  }
+  if (content === "") {
+    alert("내용을 입력해주세요.");
+    return;
+  }
 
   const privateKey = prompt("임시 저장을 위한 비밀번호를 입력해주세요.");
   if (!privateKey) {

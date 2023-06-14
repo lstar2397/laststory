@@ -7,14 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="/js/letterWrite.js"></script>
+  <script src="/js/config.js"></script>
   <link rel="stylesheet" href="/css/letterWrite.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/main.css">
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-
   <title>편지 쓰기</title>
 </head>
 
@@ -23,7 +21,7 @@
     <a href="main" id="logo">Last Story</a>
     <nav id="menu-bar">
       <ul>
-        <li><a href="main">편지 리스트</a></li>
+        <li><a href="#">공지사항</a></li>
         <li><a href="letterWrite">편지 쓰기</a></li>
         <li><a href="myLetterList ">내 편지 리스트</a></li>
       </ul>
@@ -36,8 +34,10 @@
     <form action="/letterWrite" method="post">
       <input type="text" name="title" id="title" placeholder="제목" autocomplete="off">
       <textarea name="content" id="content" placeholder="내용"></textarea>
+      <div id="btn-box">
       <input type="button" id="btn-modal" class="btn-modal" value="게시">
       <input type="submit" id="temp-save-button" value="임시저장" onclick="tempSave(event)">
+    </div>
     </form>
   </div>
   <div class="modal">
@@ -56,5 +56,6 @@
     </div>
   </div>
 </body>
-
+<script src="/js/letterWrite.js"></script>
+<script src="/js/contract.js"></script>
 </html>

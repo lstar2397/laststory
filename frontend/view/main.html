@@ -14,47 +14,25 @@
 </head>
 
 <body>
-    <div id="top-menu">
+    <div id="top-container">
         <a href="main" id="logo">Last Story</a>
-        <nav id="menu-bar">
-            <ul>
-                <li><a href="main">편지 리스트</a></li>
-                <li><a href="letterWrite">편지 쓰기</a></li>
-                <li><a href="myLetterList ">내 편지 리스트</a></li>
-            </ul>
-        </nav>
-        <div id="login-bar">
-                <a href="login">로그인</a>
-                <a href="" id="logout-button" onclick="logout()">로그아웃</a>
-        </div>
     </div>
-    <div id="menu-select-container">
-        <h3>편지 리스트</h3>
+    <div id="menu-container" onclick="">
+        <a href="#">
+            <div id="menu-1" class="menu">
+                <p>공지사항</p>
+            </div>
+        </a>
+        <a href="/letterWrite">
+            <div id="menu-2" class="menu">
+                <p>유언장 쓰기</p>
+            </div>
+        </a>
+        <a href="/myLetterList">
+            <div id="menu-3" class="menu">
+                <p>유언장 보기</p>
+            </div>
+        </a>
     </div>
-    <div id="search-box">
-        <input type="text" id="search" placeholder="검색어를 입력하세요" autocomplete="off">
-        <button id="search-button">검색</button>
-    </div>
-    <main id="letterList-container">
-        <div id="letterList-box">
-            <div id="letterListChild">
-                <p>2023.1.1</p>
-                <p>제목</p>
-                <p>작성자</p>
-            </div>
-            <div id="letterListChild">
-                <p>2023.1.2</p>
-                <p>제목</p>
-                <p>작성자</p>
-            </div>
-            <div id="letterListChild">
-                <p>2023.1.3</p>
-                <p>제목</p>
-                <p>작성자</p>
-            </div>
-        </div>
-
-    </main>
 </body>
-
 </html>

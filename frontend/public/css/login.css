@@ -4,7 +4,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FFEBB4;
+    background-color: #9DB2BF;
     font-family: 'Gowun Dodum', sans-serif;
 }
 
@@ -27,7 +27,7 @@ p {
 #information_container {
     width: 60%;
     height: 100%;
-    background-color: #FBFFB1;
+    background-color: #DDE6ED;
     text-align: center;
     float: left;
     border-radius: 20px 0px 0px 20px;
@@ -90,7 +90,7 @@ input {
 }
 
 #submit-button {
-    background-color: #FFEBB4;
+    background-color: #DDE6ED;
     border-width: 0px;
     border-radius: 10px;
     margin-top: 20px;
@@ -98,7 +98,7 @@ input {
 }
 
 #submit-button:hover {
-    background-color: #FFD87D;
+    background-color: #9DB2BF;
 }
 
 a {

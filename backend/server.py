@@ -50,16 +50,9 @@ def sign_up():
             db.user.insert_one(user_info)
             return jsonify({'result': 'success'}), 200
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
-    if request.method == 'GET':
-        exists = redis_client.exists('username')
-        if not exists:
-            return jsonify({'result': 'fail'}) 
-        else:
-            return jsonify({'result': 'success'}), 200
-    else:
-        data = request.get_json(cache=False)
+    data = request.get_json(cache=False)
 
         username = data['username']
         password = data['password']
