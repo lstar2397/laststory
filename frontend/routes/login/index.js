@@ -40,18 +40,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/logout", async (req, res) => {
-  try {
-    const response = await axios.get(`${BACKEND_URL}/logout`);
-    const { result } = response.data;
-
-    if (result === "success") {
-      res.send({ result: "success" });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 module.exports = router;
