@@ -52,13 +52,9 @@ async function pushLetter(event) {
   alert("CID: " + cid);
   console.log("CID: " + cid);
 
-  getMetaMaskAccount()
-    .then((account) => {
-      console.log("MetaMask 계정 주소:", account);
-    })
-    .catch((error) => {
-      console.error("MetaMask 계정 가져오기 실패:", error);
-    });
+  // cid
+  // 공개시간
+  // 공개 대상 지갑주소
 }
 
 async function uploadFileToIpfs(file, filename) {
@@ -73,6 +69,8 @@ async function uploadFileToIpfs(file, filename) {
     },
     body: formData,
   });
+
+  console.log(response);
   const result = await response.json();
 
   return result.cid;
