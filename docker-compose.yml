@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  laststory-frontend:
+    build: ./frontend
+    container_name: laststory-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - laststory-network
+  laststory-backend:
+    build: ./backend
+    container_name: laststory-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    networks:
+      - laststory-network
+networks:
+  laststory-network:
+    driver: bridge

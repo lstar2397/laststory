@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  laststory-frontend:
+    build: ./frontend
+    container_name: laststory-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.laststory-ui-https.rule=Host(`laststory.euijin.me`)
+      - traefik.http.routers.laststory-ui-https.entrypoints=websecure
+      - traefik.http.routers.laststory-ui-https.tls=true
+      - traefik.http.routers.laststory-ui-https.tls.certResolver=letsencrypt
+      - traefik.http.routers.laststory-ui-https.service=laststory-ui
+      - traefik.http.routers.laststory-ui-http.rule=Host(`laststory.euijin.me`)
+      - traefik.http.routers.laststory-ui-http.entrypoints=web
+      - traefik.http.routers.laststory-ui-http.service=laststory-ui
+      - traefik.http.services.laststory-ui.loadbalancer.server.port=3000
+    networks:
+      - laststory-network
+  laststory-backend:
+    build: ./backend
+    container_name: laststory-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    networks:
+      - laststory-network
+networks:
+  laststory-network:
+    driver: bridge
