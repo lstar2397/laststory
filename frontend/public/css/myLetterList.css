@@ -28,3 +28,15 @@ a {
     display: flex;
     list-style: none;
 }
+
+#login-box {
+    position: relative;
+    display: flex;
+    margin-left: auto;
+}
+
+.login-btn {
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
