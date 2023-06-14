@@ -1,9 +1,9 @@
-import bcrypt, smtplib, random, datetime, jwt
+import bcrypt, smtplib, random, redis, base64, jwt
+from datetime import datetime, timedelta
 from flask import Flask, request, jsonify, session
 from pymongo import MongoClient
 from configparser import ConfigParser
 from email.message import EmailMessage
-import redis
 
 # Config
 config = ConfigParser()
@@ -19,7 +19,6 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 # 비밀 키 설정
 app.secret_key = config['SECRET_KEY']['KEY']
 redis_client = redis.Redis(host='localhost', port=6379)
-
 
 
 @app.route('/sign_up', methods=['POST'])
@@ -52,7 +51,6 @@ def sign_up():
             return jsonify({'result': 'success'}), 200
 
 @app.route('/login', methods=['GET', 'POST'])
-
 def login():
     if request.method == 'GET':
         exists = redis_client.exists('username')
@@ -67,14 +65,12 @@ def login():
         password = data['password']
         user_check = db.user.find_one({'username': username})
         if user_check is not None and bcrypt.checkpw(password.encode('utf-8'), user_check['password']):
-            redis_client.setex('username', 30, username)
-            # 세션 데이터 가져오기
-            session_data = redis_client.get('username')
-            # 세션 데이터 출력
-            print(session_data)
-
-            
-            return jsonify({'result': 'success'}), 200
+            payload = {
+                'username': username,
+                'exp': datetime.utcnow() + timedelta(minutes=30)
+            }
+            token = jwt.encode(payload, app.secret_key, algorithm='HS256')
+            return jsonify({'result': 'success', 'token': token}), 200
         else:
             # 로그인 실패
             return jsonify({'result': 'fail'}), 401
@@ -112,7 +108,6 @@ def email_send():
     
 @app.route('/logout', methods=['GET'])
 def logout():
-    redis_client.flushall()
     return jsonify({'result': 'success'}), 200
 
 
