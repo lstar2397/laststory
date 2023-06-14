@@ -109,7 +109,7 @@ def email_send():
     smtp.close()
 
     authentication_info = {
-        'createdAt': datetime.datetime.utcnow(),
+        'createdAt': datetime.utcnow(),
         'username': data['username'],
         'authenticationNumber': random_number
     }
@@ -133,7 +133,7 @@ def write():
         username = token['username']
         tempPosts = {
             'username': username,
-            'writing_time': datetime.datetime.utcnow(),
+            'writing_time': datetime.utcnow(),
             'title': title,
             'encrypted' : encrypted
         }
