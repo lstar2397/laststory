@@ -131,3 +131,15 @@ input[type="submit"] {
     cursor: pointer;
     margin-right: 10px;
 }
+
+#login-box {
+    position: relative;
+    display: flex;
+    margin-left: auto;
+}
+
+.login-btn {
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
