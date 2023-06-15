@@ -15,30 +15,59 @@ async function myLetterListGet() {
     .then((res) => {
       if (res.result === "success") {
         const list = res.myPost;
-        const listDiv = document.querySelector(".myLetterList");
 
-        console.log(list);
+        const listTable = document.querySelector(".myLetterList");
 
         list.forEach((item) => {
-          const div = document.createElement("div");
-          div.className = "item";
+          const tr = document.createElement("tr");
+          tr.className = "item";
 
-          const postId = document.createElement("span");
-          postId.innerHTML = "Post ID: " + item.postid;
-          div.appendChild(postId);
+          const postId = document.createElement("td");
+          postId.innerHTML = item.postid;
+          tr.appendChild(postId);
 
-          const title = document.createElement("h3");
+          const title = document.createElement("td");
           title.innerHTML = item.title;
-          div.appendChild(title);
+          tr.appendChild(title);
 
-          const username = document.createElement("p");
-          username.innerHTML = "By: " + item.username;
-          div.appendChild(username);
+          const fixButton = document.createElement("button");
+          fixButton.innerHTML = "수정";
+          fixButton.addEventListener("click", () => {
+            location.href = `/letterWrite?postid=${item.postid}`;
+          });
+          tr.appendChild(fixButton);
 
-          listDiv.appendChild(div);
+          const deleteButton = document.createElement("button");
+          deleteButton.innerHTML = "삭제";
+          deleteButton.addEventListener("click", () => {
+            const confirm = prompt("비밀번호를 입력해주세요.");
+            if (confirm) {
+              fetch("/myLetterList/delete", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token, postid: item.postid, confirm }),
+              })
+                .then((res) => res.json())
+                .then((res) => {
+                  if (res.result === "success") {
+                    alert("삭제되었습니다.");
+                    location.href = "/myLetterList";
+                  } else {
+                    alert("비밀번호가 일치하지 않습니다.");
+                  }
+                })
+                .catch((err) => {
+                  console.error("에러 발생");
+                });
+            }
+          });
+          tr.appendChild(deleteButton);
+
+          listTable.appendChild(tr);
         });
       } else {
-        alert(res.msg);
+        alert("로그인이 필요합니다.");
+        location.href = "login";
       }
     })
     .catch((err) => {

@@ -73,14 +73,76 @@ a {
     cursor: pointer;
 }
 
-.myLetterList {
+.myLetterList-container {
     position: relative;
     width: 60%;
     height: 400px;
     margin: 0 auto;
     background: white;
+    overflow: scroll;
 }
 
-.myLetterList .item {
-    display:flex
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.thead-box {
+    border-bottom: 1px #ddd solid;
+}
+
+table thead tr th {
+    padding: 5px;
+    text-align: center;
+}
+
+table thead tr th:first-child {
+    width: 20%;
+}
+
+table thead tr th:last-child {
+    width: 70%;
+}
+
+table tbody tr td {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+table tbody tr td:first-child {
+    width: 20%;
+}
+
+table tbody tr td:last-child {
+    width: 100%;
+}
+
+table tbody button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+@media screen and (max-width: 767px) {
+  .myLetterList-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .myLetterList-container {
+    width: 60%;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .myLetterList-container {
+    width: 50%;
+    margin: 0 auto;
+  }
 }
