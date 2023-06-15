@@ -20,17 +20,16 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 app.secret_key = config['SECRET_KEY']['KEY']
 
 
-def is_token_exist(token):
+def is_token_exist():
     token = request.headers.get('Authorization')
-
     if token:
         # Bearer 접두사 제거
         token = token.replace('Bearer ', '')
-
+        print(token)
         try:
             # 토큰 디코딩
-            decoded_token = jwt.decode(token, app.secret_key, algorithms=['HS256'])
-            data = json.loads(decoded_token['data'])
+            data = jwt.decode(token, app.secret_key, algorithms=['HS256'])
+            print(data['username'])
             return data
         except jwt.ExpiredSignatureError:    # 토큰 만료 시 예외 처리
             return None
@@ -38,6 +37,16 @@ def is_token_exist(token):
             return None
     else:
         return None
+
+
+def get_next_sequence_value(sequence_name):
+    result = db.counters.find_one_and_update(
+        {'_id': sequence_name},
+        {'$inc': {'seq': 1}},
+        return_document=True
+    )
+    return result['seq']
+
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
@@ -128,19 +137,30 @@ def write():
     encrypted = data['encrypted']
     token = is_token_exist()
     if token is None:
-        return jsonify({'result': 'fail'}), 400
+        return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
     else:
         username = token['username']
+        postid = get_next_sequence_value('postid')
         tempPosts = {
+            'postid': postid,
             'username': username,
             'writing_time': datetime.utcnow(),
             'title': title,
             'encrypted' : encrypted
         }
         db.temp_post.insert_one(tempPosts)
-        return jsonify({'result': 'success'}), 200
+        return jsonify({'result': 'success', 'postid':postid, 'message': 'Post has been temporarily saved'}), 200
 
 
-
+@app.route('/myPost', methods=['GET'])
+def myPost():
+    token = is_token_exist()
+    if token is None:
+        return jsonify({'result': 'fail', 'message': 'Token is invalid or expired'}), 400
+    else:
+        username = token['username']
+        myPost = list(db.temp_post.find({'username': username}, {'_id': False}))
+        return jsonify({'result': 'success', 'myPost': myPost}), 200
+    
 if __name__ == '__main__':
     app.run(host=config['SERVER']['HOST'], port=config['SERVER']['PORT'])
