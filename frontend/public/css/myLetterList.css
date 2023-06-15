@@ -21,7 +21,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     position: absolute;
-    top:0%;
+    top: 0%;
     left: 0%;
     z-index: -1;
     opacity: 0.7;
@@ -46,7 +46,8 @@ a {
 
 #menu-bar ul {
     display: flex;
-    justify-content: center; /* 요소들을 가로로 중앙 정렬 */
+    justify-content: center;
+    /* 요소들을 가로로 중앙 정렬 */
     position: relative;
     list-style: none;
     margin: 0;
@@ -62,7 +63,7 @@ a {
     position: relative;
     top: 10%;
 }
-  
+
 
 #login-box {
     position: relative;
@@ -70,4 +71,12 @@ a {
     margin-left: auto;
     margin-right: 40px;
     cursor: pointer;
+}
+
+.myLetterList {
+    position: relative;
+    width: 60%;
+    height: 200px;
+    margin: 0 auto;
+    background: white;
 }
