@@ -80,6 +80,7 @@ function tempSave(event) {
   event.preventDefault();
   const title = document.getElementById("title").value;
   const content = document.getElementById("content").value;
+  const token = localStorage.getItem("accessToken");
 
   if (title === "") {
     alert("제목을 입력해주세요.");
@@ -107,6 +108,7 @@ function tempSave(event) {
     fetch("/letterWrite/tempSave", {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ title, encrypted }),
