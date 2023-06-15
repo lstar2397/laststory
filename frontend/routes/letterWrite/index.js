@@ -14,8 +14,6 @@ router.post("/tempSave", async (req, res) => {
   try {
     const { title, encrypted, token } = req.body;
 
-    console.log(title, encrypted, token);
-
     const headers = {
       Authorization: `Bearer ${token}`,
     };

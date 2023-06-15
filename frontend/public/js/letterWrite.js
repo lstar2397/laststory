@@ -82,8 +82,6 @@ function tempSave(event) {
   const content = document.getElementById("content").value;
   const token = localStorage.getItem("token");
 
-  console.log(token);
-
   if (title === "") {
     alert("제목을 입력해주세요.");
     return;
