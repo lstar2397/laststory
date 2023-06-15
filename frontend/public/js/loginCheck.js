@@ -14,7 +14,7 @@ function login(event) {
     .then((res) => res.json())
     .then((res) => {
       if (res.state === 200) {
-        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("token", res.token);
         location.href = "main";
       } else {
         alert("로그인 실패");

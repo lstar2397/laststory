@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
       res.send({
         state: 200,
         message: "로그인성공",
-        accessToken: response.data.access_token,
+        token: response.data.token,
       });
     } else {
       res.send({ state: 400, message: "로그인실패" });

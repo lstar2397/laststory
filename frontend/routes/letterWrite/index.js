@@ -12,12 +12,22 @@ router.get("/", (req, res) => {
 
 router.post("/tempSave", async (req, res) => {
   try {
-    const { title, encrypted } = req.body;
+    const { title, encrypted, token } = req.body;
 
-    const response = await axios.post(`${BACKEND_URL}/tempSave`, {
-      title,
-      encrypted,
-    });
+    console.log(title, encrypted, token);
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const response = await axios.post(
+      `${BACKEND_URL}/tempSave`,
+      {
+        title,
+        encrypted,
+      },
+      { headers }
+    );
     const { result } = response.data;
 
     if (result === "success") {

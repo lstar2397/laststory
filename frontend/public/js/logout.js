@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const loginButton = document.getElementById("login-button");
   const logoutButton = document.getElementById("logout-button");
 
-  const accessToken = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("token");
 
-  if (accessToken) {
+  if (token) {
     loginButton.style.display = "none";
     logoutButton.style.display = "block";
   } else {
@@ -12,8 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
     logoutButton.style.display = "none";
   }
 
+  console.log(token);
+
   logoutButton.addEventListener("click", function (event) {
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("token");
     location.href = "login";
   });
 });
