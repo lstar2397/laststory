@@ -76,7 +76,11 @@ a {
 .myLetterList {
     position: relative;
     width: 60%;
-    height: 200px;
+    height: 400px;
     margin: 0 auto;
     background: white;
+}
+
+.myLetterList .item {
+    display:flex
 }

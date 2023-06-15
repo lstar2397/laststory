@@ -163,7 +163,7 @@ def myPost():
         return jsonify({'result': 'success', 'myPost': myPost}), 200
 
 
-@app.route('/myPost/<int:postid>', methods=['GET'])
+@app.route('/myPost/<int:postid>', methods=['POST'])
 def get_post(postid):
     token = is_token_exist()
     if token is None:

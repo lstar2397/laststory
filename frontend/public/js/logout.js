@@ -12,8 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
     logoutButton.style.display = "none";
   }
 
-  console.log(token);
-
   logoutButton.addEventListener("click", function (event) {
     localStorage.removeItem("token");
     location.href = "login";
