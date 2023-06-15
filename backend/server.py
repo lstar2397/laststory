@@ -156,10 +156,10 @@ def write():
 def myPost():
     token = is_token_exist()
     if token is None:
-        return jsonify({'result': 'fail', 'message': 'Token is invalid or expired'}), 400
+        return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
     else:
         username = token['username']
-        myPost = list(db.temp_post.find({'username': username}, {'_id': False}))
+        myPost = list(db.temp_post.find({'username': username}, {'_id': False, 'postid': False}))
         return jsonify({'result': 'success', 'myPost': myPost}), 200
     
 if __name__ == '__main__':
