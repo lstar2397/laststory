@@ -159,8 +159,17 @@ def myPost():
         return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
     else:
         username = token['username']
-        myPost = list(db.temp_post.find({'username': username}, {'_id': False, 'postid': False}))
+        myPost = list(db.temp_post.find({'username': username}, {'_id': False}))
         return jsonify({'result': 'success', 'myPost': myPost}), 200
-    
+
+@app.route('/myPost/<int:postid>', methods=['GET'])
+def get_post(postid):
+    token = is_token_exist()
+    if token is None:
+        return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
+    else:
+        myPost = db.temp_post.find_one({'postid': postid}, {'_id': False})
+        return jsonify({'result': 'success', 'myPost': myPost}), 200
+
 if __name__ == '__main__':
     app.run(host=config['SERVER']['HOST'], port=config['SERVER']['PORT'])
