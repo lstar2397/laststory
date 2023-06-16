@@ -19,7 +19,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       const accounts = await provider.request({
         method: "eth_requestAccounts",
       });
-      console.log(accounts);
+
+      console.log("accounts: ", accounts);
     } catch (error) {
       console.error("User denied account access");
       console.error(error);

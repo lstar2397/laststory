@@ -45,16 +45,21 @@ async function pushLetter(event) {
   const publicTarget = document.getElementById("publicTarget").value;
 
   const filename = `letter-${now}.txt`;
-  const file = new File([content], filename, { type: "text/plain" });
+
+  const fileContent = `Title: ${title}\n\n${content}`; // Combine title and content
+
+  const file = new File([fileContent], filename, { type: "text/plain" });
 
   const cid = await uploadFileToIpfs(file, filename);
 
   alert("CID: " + cid);
-  console.log("CID: " + cid);
 
   // cid
+  console.log("cid: ", cid);
   // 공개시간
+  console.log("publicDate: ", publicDate);
   // 공개 대상 지갑주소
+  console.log("publicTarget: ", publicTarget);
 }
 
 async function uploadFileToIpfs(file, filename) {
@@ -69,8 +74,6 @@ async function uploadFileToIpfs(file, filename) {
     },
     body: formData,
   });
-
-  console.log(response);
   const result = await response.json();
 
   return result.cid;
