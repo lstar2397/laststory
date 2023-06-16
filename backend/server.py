@@ -151,6 +151,29 @@ def write():
         db.temp_post.insert_one(tempPosts)
         return jsonify({'result': 'success', 'postid':postid, 'message': 'Post has been temporarily saved'}), 200
 
+@app.route('/tempUpdate', methods=['POST'])
+def update():
+    data = request.get_json(cache=False)
+    title = data['title']
+    encrypted = data['encrypted']
+    postid = data['postid']
+    print(postid)
+    token = is_token_exist()
+    if token is None:
+        return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
+    else:
+        filter = {'postid': postid }
+        print(filter)
+        result = {
+            "$set": {
+                'writing_time': datetime.utcnow(),
+                'title': title,
+                'encrypted' : encrypted
+            }
+        }
+        db.temp_post.update_one(filter, result)
+        return jsonify({'result': 'success', 'postid':postid, 'message': 'Post has been modified'}), 200
+
 
 @app.route('/myPost', methods=['POST'])
 def myPost():
