@@ -86,7 +86,7 @@ def login():
     if user_check is not None and bcrypt.checkpw(password.encode('utf-8'), user_check['password']):
         payload = {
             'username': username,
-            'exp': datetime.utcnow() + timedelta(minutes=30)
+            'exp': datetime.utcnow() + timedelta(hours=1)
         }
         token = jwt.encode(payload, app.secret_key, algorithm='HS256')
         return jsonify({'result': 'success', 'token': token}), 200
@@ -152,7 +152,7 @@ def write():
         return jsonify({'result': 'success', 'postid':postid, 'message': 'Post has been temporarily saved'}), 200
 
 
-@app.route('/myPost', methods=['GET'])
+@app.route('/myPost', methods=['POST'])
 def myPost():
     token = is_token_exist()
     if token is None:
