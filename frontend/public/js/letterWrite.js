@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
 async function pushLetter(event) {
   const title = document.getElementById("title").value;
   const content = document.getElementById("content").value;
-
   const publicDate = document.getElementById("publicDate").value;
   const publicDateObj = new Date(publicDate);
   const now = new Date();
@@ -43,23 +42,46 @@ async function pushLetter(event) {
   }
 
   const publicTarget = document.getElementById("publicTarget").value;
+  let publicTargetMetamaskAdr = ""; // let으로 변수 선언
 
-  const filename = `letter-${now}.txt`;
+  try {
+    const response = await fetch("/letterWrite/getTargetMetamaskAdr", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ publicTarget }),
+    });
 
-  const fileContent = `Title: ${title}\n\n${content}`; // Combine title and content
+    if (response.ok) {
+      const res = await response.json();
 
-  const file = new File([fileContent], filename, { type: "text/plain" });
+      if (res.state === 200) {
+        publicTargetMetamaskAdr = res.metamask_address;
 
-  const cid = await uploadFileToIpfs(file, filename);
+        const filename = `letter-${now}.txt`;
+        const fileContent = `Title: ${title}\n\n${content}`; // 제목과 내용을 결합하여 파일 내용을 생성합니다.
+        const file = new File([fileContent], filename, { type: "text/plain" });
 
-  alert("CID: " + cid);
+        const cid = await uploadFileToIpfs(file, filename);
 
-  // cid
-  console.log("cid: ", cid);
-  // 공개시간
-  console.log("publicDate: ", publicDate);
-  // 공개 대상 지갑주소
-  console.log("publicTarget: ", publicTarget);
+        alert("CID: " + cid);
+
+        // cid
+        console.log("cid: ", cid);
+        // 공개시간
+        console.log("publicDate: ", publicDate);
+        // 공개 대상 지갑주소
+        console.log("publicTarget: ", publicTargetMetamaskAdr);
+      } else {
+        alert("공개 대상 지갑주소를 다시 확인해주세요.");
+      }
+    } else {
+      throw new Error("공개 대상 지갑주소 확인 중 에러 발생");
+    }
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function uploadFileToIpfs(file, filename) {

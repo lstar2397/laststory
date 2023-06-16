@@ -36,7 +36,6 @@ router.post("/getList", async (req, res) => {
 router.post("/delete", async (req, res) => {
   try {
     const { token, postid, confirm } = req.body;
-    console.log(token, postid, confirm);
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -46,7 +45,7 @@ router.post("/delete", async (req, res) => {
       { postid, confirm },
       { headers }
     );
-      
+
     const { result } = response.data;
 
     if (result === "success") {
@@ -59,6 +58,5 @@ router.post("/delete", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 
 module.exports = router;

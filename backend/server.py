@@ -25,11 +25,9 @@ def is_token_exist():
     if token:
         # Bearer 접두사 제거
         token = token.replace('Bearer ', '')
-        print(token)
         try:
             # 토큰 디코딩
             data = jwt.decode(token, app.secret_key, algorithms=['HS256'])
-            print(data['username'])
             return data
         except jwt.ExpiredSignatureError:    # 토큰 만료 시 예외 처리
             return None
@@ -196,7 +194,6 @@ def delete():
     else:
         username = token['username']
         user_check = db.user.find_one({'username': username})
-        print(user_check['password'])
         if user_check is not None and bcrypt.checkpw(password.encode('utf-8'), user_check['password']):
             postid = data['postid']
             filter = {'postid': int(postid) }
@@ -205,7 +202,20 @@ def delete():
         else:
             return jsonify({'result': 'fail', 'message': '비밀번호가 일치하지 않습니다.'}), 401
         
+# 유언장 게시 시 공개 대상 메타마스크 주소 반환
+@app.route('/getTargetMetamaskAdr', methods=['POST'])
+def getTargetMetamaskAdr():
+    data = request.get_json(cache=False)
 
+    target_nickname = data['publicTarget']
+
+    target_user = db.user.find_one({'nickname': target_nickname})
+    
+    if target_user is not None:
+        target_metamask_address = target_user['metamask_address']
+        return jsonify({'result': 'success', 'metamask_address': target_metamask_address}), 200
+    else:
+        return jsonify({'result': 'fail', 'message': '사용자를 찾을 수 없습니다.'}), 404
 
 
 if __name__ == '__main__':
