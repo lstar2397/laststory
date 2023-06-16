@@ -38,15 +38,10 @@ async function myLetterListGet() {
             const Decrypt = CryptoJS.AES.decrypt(item.encrypted, password);
             const data = Decrypt.toString(CryptoJS.enc.Utf8);
 
-            console.log(data);
-
-            console.log(item.postid);
-
-            const jsonData = JSON.parse(data);
-
-            if (data === "") {
+            if (!password || !data) {
               alert("비밀번호가 일치하지 않습니다.");
             } else {
+              const jsonData = JSON.parse(data);
               localStorage.setItem("title", jsonData.title);
               localStorage.setItem("content", jsonData.content);
               localStorage.setItem("postid", item.postid);

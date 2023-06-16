@@ -14,8 +14,6 @@ router.post("/tempUpdate", async (req, res) => {
   try {
     const { title, encrypted, token, postId } = req.body;
 
-    console.log(title, encrypted, token, postId);
-
     const headers = {
       Authorization: `Bearer ${token}`,
     };
