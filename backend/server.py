@@ -56,6 +56,7 @@ def sign_up():
     password = data['password']
     nickname = data['nickname']
     email = data['email']
+    metamask_address = data['metamask_address']
     auth = data['auth']
 
     authentication_num = db.certification.find_one({'username': username})['authenticationNumber']
@@ -72,6 +73,7 @@ def sign_up():
                 'username': username,
                 'password': bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()),
                 'nickname': nickname,
+                'metamask_address': metamask_address,
                 'email': email
             }
             db.user.insert_one(user_info)
