@@ -184,40 +184,7 @@ def myPost():
         username = token['username']
         myPost = list(db.temp_post.find({'username': username}, {'_id': False}))
         return jsonify({'result': 'success', 'myPost': myPost}), 200
-
-
-@app.route('/myPost/<int:postid>', methods=['POST'])
-def get_post(postid):
-    token = is_token_exist()
-    if token is None:
-        return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
-    else:
-        myPost = db.temp_post.find_one({'postid': postid}, {'_id': False})
-        return jsonify({'result': 'success', 'myPost': myPost}), 200
-
-
-@app.route('/myPost/<int:postid>', methods=['DELETE'])
-def delete_post(postid):
-    token = is_token_exist()
-    if token is None:
-        return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
-    else:
-        db.temp_post.delete_one({'postid': postid})
-        return jsonify({'result': 'success', 'message': 'Post has been deleted'}), 200
     
-    
-@app.route('/myPost/<int:postid>', methods=['PUT'])
-def update_post(postid):
-    data = request.get_json(cache=False)
-    title = data['title']
-    encrypted = data['encrypted']
-    token = is_token_exist()
-    if token is None:
-        return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
-    else:
-        db.temp_post.update_one({'postid': postid}, {'$set': {'title': title, 'encrypted': encrypted}})
-        return jsonify({'result': 'success', 'message': 'Post has been updated'}), 200
-
 
 if __name__ == '__main__':
     app.run(host=config['SERVER']['HOST'], port=config['SERVER']['PORT'])
