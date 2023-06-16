@@ -3,7 +3,9 @@ body {
     padding: 0px;
     width: 100vw;
     height: 100vh;
-    background-color: #FFEBB4;
+    background-image: url('../image/background.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
     font-family: 'Gowun Dodum', sans-serif;
 }
 
@@ -23,7 +25,7 @@ form {
 }
 
 form label {
-    font-size: 12px;
+    font-size: 15px;
     margin-top: 5px;
     margin-bottom: 0px;
     position: relative;
@@ -32,7 +34,7 @@ form label {
 form input {
     width: 100%;
     height: 18px;
-    border: 1px solid #d9c6aa;
+    border: 1px solid #A6D0DD;
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
@@ -43,7 +45,7 @@ form input {
 form input#email {
     width: 80%;
     height: 18px;
-    border: 1px solid #d9c6aa;
+    border: 1px solid #A6D0DD;
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
@@ -54,7 +56,7 @@ form input#email {
 form input#metamask_address {
     width: 80%;
     height: 18px;
-    border: 1px solid #d9c6aa;
+    border: 1px solid #A6D0DD;
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
@@ -66,24 +68,28 @@ form input#metamask_address {
 form input#auth-button {
     width: 17%;
     height: 18px;
-    border: 1px solid #d9c6aa;
-    background-color: #FFEBB4;
+    border: 1px solid #A6D0DD;
+    background-color: #A6D0DD;
     border-radius: 5px;
 }
 
 form input#getMetamaskAddress-button {
     width: 17%;
     height: 18px;
-    border: 1px solid #d9c6aa;
-    background-color: #FFEBB4;
+    border: 1px solid #A6D0DD;
+    background-color: #A6D0DD;
     border-radius: 5px;
+}
+
+form input#getMetamaskAddress-button:hover {
+    background-color: #74a3a8;
 }
 
 form input#submit-button {
     width: 80%;
     height: 23px;
-    border: 1px solid #d9c6aa;
-    background-color: #FFEBB4;
+    border: 1px solid #A6D0DD;
+    background-color: #A6D0DD;
     border-radius: 5px;
     margin-top: 20px;
     cursor: pointer;
@@ -93,11 +99,11 @@ form input#submit-button {
 }
 
 form input#auth-button:hover {
-    background-color: #FFD87D;
+    background-color: #74a3a8;
 }
 
 form input#submit-button:hover {
-    background-color: #FFD87D;
+    background-color: #74a3a8;
 }
 
 #container {
@@ -136,13 +142,13 @@ form input#submit-button:hover {
 }
 
 #bottom_container p {
-    font-size: 10px;
+    font-size: 15px;
     margin-right: 5px;
     color: #576767;
 }
 
 #bottom_container a {
-    font-size: 10px;
+    font-size: 15px;
 }
 
 
@@ -150,14 +156,71 @@ form input#submit-button:hover {
 
 @media screen and (max-width: 768px) {
     #container {
-        width: 90%;
-        height: 80%;
+        width: 300px;
+        height: 600px;
     }
     form input#auth-button {
-        width: 15%;
+        width: 60px;
         height: 18px;
-        border: 1px solid #d9c6aa;
-        background-color: #FFEBB4;
+        border: 1px solid #A6D0DD;
+        background-color: #A6D0DD ;
+        border-radius: 5px;
+    }
+    form input#getMetamaskAddress-button {
+        width: 60px;
+        height: 18px;
+        border: 1px solid #A6D0DD;
+        background-color: #A6D0DD;
+        border-radius: 5px;
+    }
+    form input#metamask_address {
+        width: 70%;
+    }
+    form input#email {
+        width: 70%;
+    }
+
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    #container {
+        width: 600px;
+        height: 600px;
+    }
+    form input#auth-button {
+        width: 60px;
+        height: 18px;
+        border: 1px solid #A6D0DD;
+        background-color: #A6D0DD ;
+        border-radius: 5px;
+    }
+    form input#getMetamaskAddress-button {
+        width: 60px;
+        height: 18px;
+        border: 1px solid #A6D0DD;
+        background-color: #A6D0DD;
+        border-radius: 5px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #container {
+        width: 600px;
+        height: 600px;
+    }
+    form input#auth-button {
+        width: 60px;
+        height: 18px;
+        border: 1px solid #A6D0DD;
+        background-color: #A6D0DD ;
+        border-radius: 5px;
+    }
+    form input#getMetamaskAddress-button {
+        width: 60px;
+        height: 18px;
+        border: 1px solid #A6D0DD;
+        background-color: #A6D0DD;
         border-radius: 5px;
     }
 }
