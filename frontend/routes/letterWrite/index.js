@@ -10,6 +10,10 @@ router.get("/", (req, res) => {
   res.sendFile("./view/letterWrite.html", { root: __dirname + "../../../" });
 });
 
+router.get("/1", (req, res) => {
+  res.sendFile("./view/letterWrite.html", { root: __dirname + "../../../" });
+});
+
 router.post("/tempSave", async (req, res) => {
   try {
     const { title, encrypted, token } = req.body;
@@ -33,6 +37,31 @@ router.post("/tempSave", async (req, res) => {
     } else {
       res.status(400).json({ result: "fail" });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post("/fix", async (req, res) => {
+  try {
+    const { title, content, postid } = req.body;
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post("/:postid", async (req, res) => {
+  try {
+    const { title, content, postid } = req.body;
+    const textareaElement = document.getElementById("content");
+    textareaElement.value = content;
+
+    const titleElement = document.getElementById("title");
+    titleElement.value = title;
+
+    res.status(200).json({ result: "success" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

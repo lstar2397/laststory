@@ -135,14 +135,14 @@ table tbody button {
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .myLetterList-container {
-    width: 60%;
+    width: 80%;
     margin: 0 auto;
   }
 }
 
 @media screen and (min-width: 1024px) {
   .myLetterList-container {
-    width: 50%;
+    width: 80%;
     margin: 0 auto;
   }
 }

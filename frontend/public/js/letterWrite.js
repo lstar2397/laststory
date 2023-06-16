@@ -126,3 +126,12 @@ function tempSave(event) {
       });
   }
 }
+
+const urlParams = new URLSearchParams(window.location.search);
+const title = urlParams.get("title");
+const content = urlParams.get("content");
+
+if (title && content) {
+  document.getElementById("title").value = title;
+  document.getElementById("content").value = content;
+}

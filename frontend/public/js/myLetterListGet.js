@@ -33,7 +33,41 @@ async function myLetterListGet() {
           const fixButton = document.createElement("button");
           fixButton.innerHTML = "수정";
           fixButton.addEventListener("click", () => {
-            location.href = `/letterWrite?postid=${item.postid}`;
+            const password = prompt("비밀번호를 입력해주세요.");
+
+            const Decrypt = CryptoJS.AES.decrypt(item.encrypted, password);
+            const data = Decrypt.toString(CryptoJS.enc.Utf8);
+
+            console.log(data);
+
+            console.log(item.postid);
+
+            const jsonData = JSON.parse(data);
+
+            if (data === "") {
+              alert("비밀번호가 일치하지 않습니다.");
+            } else {
+              fetch(`/letterWrite/${item.postid}`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  title: jsonData.title,
+                  content: jsonData.content,
+                  postid: item.postid,
+                }),
+              })
+                .then((res) => res.json())
+                .then((res) => {
+                  if (res.result === "success") {
+                    alert("수정 페이지로 이동합니다.");
+                    location.href = `/letterWrite/${item.postid}`;
+                  } else {
+                    alert("수정 페이지로 이동하지 못했습니다.");
+                  }
+                });
+            }
           });
           tr.appendChild(fixButton);
 
@@ -74,5 +108,3 @@ async function myLetterListGet() {
       console.error("에러 발생");
     });
 }
-
-myLetterListGet();
