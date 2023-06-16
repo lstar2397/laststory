@@ -51,7 +51,27 @@ form input#email {
     background-color: #F8F6F4;
 }
 
+form input#metamask_address {
+    width: 80%;
+    height: 18px;
+    border: 1px solid #d9c6aa;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    position: relative;
+    background-color: #F8F6F4;
+}
+
+
 form input#auth-button {
+    width: 17%;
+    height: 18px;
+    border: 1px solid #d9c6aa;
+    background-color: #FFEBB4;
+    border-radius: 5px;
+}
+
+form input#getMetamaskAddress-button {
     width: 17%;
     height: 18px;
     border: 1px solid #d9c6aa;
@@ -124,6 +144,8 @@ form input#submit-button:hover {
 #bottom_container a {
     font-size: 10px;
 }
+
+
 
 
 @media screen and (max-width: 768px) {

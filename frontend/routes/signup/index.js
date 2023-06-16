@@ -12,7 +12,10 @@ router.get("/", (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { username, password, nickname, metamask_address, email, auth } = req.body;
+    const { username, password, nickname, metamask_address, email, auth } =
+      req.body;
+
+    console.log(req.body);
     const response = await axios.post(`${BACKEND_URL}/sign_up`, {
       username,
       password,
