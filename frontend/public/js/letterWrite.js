@@ -127,7 +127,7 @@ function tempSave(event) {
   }
 }
 
-function tempUpdate() {
+function tempUpdate(event) {
   event.preventDefault();
   const title = document.getElementById("title").value;
   const content = document.getElementById("content").value;
@@ -157,7 +157,7 @@ function tempUpdate() {
       privateKey
     ).toString();
 
-    fetch("/letterWrite/tempUpdate", {
+    fetch("/letterUpdate/tempUpdate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -194,7 +194,6 @@ function updateLetter() {
 
     localStorage.removeItem("title");
     localStorage.removeItem("content");
-    localStorage.removeItem("postid");
   }
 }
 

@@ -156,13 +156,13 @@ def update():
     data = request.get_json(cache=False)
     title = data['title']
     encrypted = data['encrypted']
-    postid = data['postid']
-    print(postid)
+    postid = data['postId']
+
     token = is_token_exist()
     if token is None:
         return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
     else:
-        filter = {'postid': postid }
+        filter = {'postid': int(postid) }
         print(filter)
         result = {
             "$set": {

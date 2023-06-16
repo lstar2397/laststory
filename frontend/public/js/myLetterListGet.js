@@ -33,7 +33,7 @@ async function myLetterListGet() {
           const fixButton = document.createElement("button");
           fixButton.innerHTML = "수정";
           fixButton.addEventListener("click", () => {
-            const password = prompt("비밀번호를 입력해주세요.");
+            const password = prompt("파일의 비밀번호를 입력해주세요.");
 
             const Decrypt = CryptoJS.AES.decrypt(item.encrypted, password);
             const data = Decrypt.toString(CryptoJS.enc.Utf8);
@@ -58,7 +58,7 @@ async function myLetterListGet() {
           const deleteButton = document.createElement("button");
           deleteButton.innerHTML = "삭제";
           deleteButton.addEventListener("click", () => {
-            const confirm = prompt("비밀번호를 입력해주세요.");
+            const confirm = prompt("회원 비밀번호를 입력해주세요.");
             if (confirm) {
               fetch("/myLetterList/delete", {
                 method: "POST",
