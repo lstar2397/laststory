@@ -10,9 +10,9 @@ router.get("/", (req, res) => {
   res.sendFile("./view/letterWrite.html", { root: __dirname + "../../../" });
 });
 
-router.get("/1", (req, res) => {
-  res.sendFile("./view/letterWrite.html", { root: __dirname + "../../../" });
-});
+// router.get("/writeUpdate", (req, res) => {
+//   res.sendFile("./view/letterWrite.html", { root: __dirname + "../../../" });
+// });
 
 router.post("/tempSave", async (req, res) => {
   try {
@@ -43,25 +43,29 @@ router.post("/tempSave", async (req, res) => {
   }
 });
 
-router.post("/fix", async (req, res) => {
+router.post("tempUpdate", async (req, res) => {
   try {
-    const { title, content, postid } = req.body;
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+    const { title, encrypted, token } = req.body;
 
-router.post("/:postid", async (req, res) => {
-  try {
-    const { title, content, postid } = req.body;
-    const textareaElement = document.getElementById("content");
-    textareaElement.value = content;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.post(
+      `${BACKEND_URL}/tempUpdate`,
+      {
+        title,
+        encrypted,
+        postid,
+      },
+      { headers }
+    );
+    const { result } = response.data;
 
-    const titleElement = document.getElementById("title");
-    titleElement.value = title;
-
-    res.status(200).json({ result: "success" });
+    if (result === "success") {
+      res.status(200).json({ result: "success" });
+    } else {
+      res.status(400).json({ result: "fail" });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

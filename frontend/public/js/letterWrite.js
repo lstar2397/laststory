@@ -127,11 +127,75 @@ function tempSave(event) {
   }
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-const title = urlParams.get("title");
-const content = urlParams.get("content");
+function tempUpdate() {
+  event.preventDefault();
+  const title = document.getElementById("title").value;
+  const content = document.getElementById("content").value;
+  const token = localStorage.getItem("token");
+  const postId = localStorage.getItem("postid");
 
-if (title && content) {
-  document.getElementById("title").value = title;
-  document.getElementById("content").value = content;
+  if (title === "") {
+    alert("제목을 입력해주세요.");
+    return;
+  }
+  if (content === "") {
+    alert("내용을 입력해주세요.");
+    return;
+  }
+
+  const privateKey = prompt("임시 저장을 위한 비밀번호를 입력해주세요.");
+  if (!privateKey) {
+    alert("비밀번호를 입력해주세요.");
+  }
+  if (privateKey) {
+    const data = {
+      title,
+      content,
+    };
+    const encrypted = CryptoJS.AES.encrypt(
+      JSON.stringify(data),
+      privateKey
+    ).toString();
+
+    fetch("/letterWrite/tempUpdate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, encrypted, token, postId }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.result === "success") {
+          alert("임시 저장되었습니다.");
+          location.href = "/myLetterList";
+        } else {
+          alert("임시 저장에 실패하였습니다.");
+        }
+      })
+      .catch((err) => {
+        console.error("임시 저장 중 에러 발생");
+      });
+  }
 }
+
+function updateLetter() {
+  const title = document.getElementById("title");
+  const content = document.getElementById("content");
+
+  const localStorageTitle = localStorage.getItem("title");
+  const localStorageContent = localStorage.getItem("content");
+
+  if (localStorageTitle === "" && localStorageContent === "") {
+    return;
+  } else {
+    title.value = localStorageTitle;
+    content.value = localStorageContent;
+
+    localStorage.removeItem("title");
+    localStorage.removeItem("content");
+    localStorage.removeItem("postid");
+  }
+}
+
+updateLetter();

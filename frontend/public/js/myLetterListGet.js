@@ -47,26 +47,10 @@ async function myLetterListGet() {
             if (data === "") {
               alert("비밀번호가 일치하지 않습니다.");
             } else {
-              fetch(`/letterWrite/${item.postid}`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  title: jsonData.title,
-                  content: jsonData.content,
-                  postid: item.postid,
-                }),
-              })
-                .then((res) => res.json())
-                .then((res) => {
-                  if (res.result === "success") {
-                    alert("수정 페이지로 이동합니다.");
-                    location.href = `/letterWrite/${item.postid}`;
-                  } else {
-                    alert("수정 페이지로 이동하지 못했습니다.");
-                  }
-                });
+              localStorage.setItem("title", jsonData.title);
+              localStorage.setItem("content", jsonData.content);
+              localStorage.setItem("postid", item.postid);
+              location.href = "/letterUpdate";
             }
           });
           tr.appendChild(fixButton);
