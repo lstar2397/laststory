@@ -163,7 +163,6 @@ def update():
         return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
     else:
         filter = {'postid': int(postid) }
-        print(filter)
         result = {
             "$set": {
                 'writing_time': datetime.utcnow(),
@@ -185,6 +184,27 @@ def myPost():
         myPost = list(db.temp_post.find({'username': username}, {'_id': False}))
         return jsonify({'result': 'success', 'myPost': myPost}), 200
     
+@app.route('/myPost/delete', methods=['POST'])
+def delete():
+    data = request.get_json(cache=False)
+    password = data['confirm']
+    token = is_token_exist()
+    if token is None:
+        return jsonify({'result': 'fail', 'message': '로그인이 필요합니다.'}), 400
+    else:
+        username = token['username']
+        user_check = db.user.find_one({'username': username})
+        print(user_check['password'])
+        if user_check is not None and bcrypt.checkpw(password.encode('utf-8'), user_check['password']):
+            postid = data['postid']
+            filter = {'postid': int(postid) }
+            db.temp_post.delete_one(filter)
+            return jsonify({'result': 'success', 'message': '게시글이 삭제되었습니다'}), 200
+        else:
+            return jsonify({'result': 'fail', 'message': '비밀번호가 일치하지 않습니다.'}), 401
+        
+
+
 
 if __name__ == '__main__':
     app.run(host=config['SERVER']['HOST'], port=config['SERVER']['PORT'])
