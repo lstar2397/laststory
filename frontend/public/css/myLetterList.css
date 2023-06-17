@@ -125,24 +125,3 @@ table tbody button {
     cursor: pointer;
     padding: 5px;
 }
-
-@media screen and (max-width: 767px) {
-  .myLetterList-container {
-    width: 90%;
-    margin: 0 auto;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-  .myLetterList-container {
-    width: 80%;
-    margin: 0 auto;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .myLetterList-container {
-    width: 80%;
-    margin: 0 auto;
-  }
-}

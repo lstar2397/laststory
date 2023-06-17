@@ -25,7 +25,7 @@ form {
 }
 
 form label {
-    font-size: 15px;
+    font-size: 17px;
     margin-top: 5px;
     margin-bottom: 0px;
     position: relative;
@@ -33,7 +33,8 @@ form label {
 
 form input {
     width: 100%;
-    height: 18px;
+    height: 30px;
+    font-size: 19px;
     border: 1px solid #A6D0DD;
     border-top: 0px;
     border-left: 0px;
@@ -67,7 +68,8 @@ form input#metamask_address {
 
 form input#auth-button {
     width: 17%;
-    height: 18px;
+    height: 25px;
+    font-size: 18px;    
     border: 1px solid #A6D0DD;
     background-color: #A6D0DD;
     border-radius: 5px;
@@ -75,7 +77,8 @@ form input#auth-button {
 
 form input#getMetamaskAddress-button {
     width: 17%;
-    height: 18px;
+    height: 25px;
+    font-size: 18px;
     border: 1px solid #A6D0DD;
     background-color: #A6D0DD;
     border-radius: 5px;
@@ -87,13 +90,12 @@ form input#getMetamaskAddress-button:hover {
 
 form input#submit-button {
     width: 80%;
-    height: 23px;
+    height: 35px;
     border: 1px solid #A6D0DD;
     background-color: #A6D0DD;
     border-radius: 5px;
     margin-top: 20px;
     cursor: pointer;
-
     left: 50%;
     transform: translateX(-50%);
 }
@@ -107,8 +109,8 @@ form input#submit-button:hover {
 }
 
 #container {
-    width: 50%;
-    height: 80%;
+    width: 800px;
+    height: 750px;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -121,10 +123,10 @@ form input#submit-button:hover {
 #sigup_container {
     width: 80%;
     height: 90%;
+    top: 30px;
     position: relative;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
 }
 
 #signup_text {
@@ -152,75 +154,3 @@ form input#submit-button:hover {
 }
 
 
-
-
-@media screen and (max-width: 768px) {
-    #container {
-        width: 300px;
-        height: 600px;
-    }
-    form input#auth-button {
-        width: 60px;
-        height: 18px;
-        border: 1px solid #A6D0DD;
-        background-color: #A6D0DD ;
-        border-radius: 5px;
-    }
-    form input#getMetamaskAddress-button {
-        width: 60px;
-        height: 18px;
-        border: 1px solid #A6D0DD;
-        background-color: #A6D0DD;
-        border-radius: 5px;
-    }
-    form input#metamask_address {
-        width: 70%;
-    }
-    form input#email {
-        width: 70%;
-    }
-
-}
-
-
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-    #container {
-        width: 600px;
-        height: 600px;
-    }
-    form input#auth-button {
-        width: 60px;
-        height: 18px;
-        border: 1px solid #A6D0DD;
-        background-color: #A6D0DD ;
-        border-radius: 5px;
-    }
-    form input#getMetamaskAddress-button {
-        width: 60px;
-        height: 18px;
-        border: 1px solid #A6D0DD;
-        background-color: #A6D0DD;
-        border-radius: 5px;
-    }
-}
-
-@media screen and (min-width: 1024px) {
-    #container {
-        width: 600px;
-        height: 600px;
-    }
-    form input#auth-button {
-        width: 60px;
-        height: 18px;
-        border: 1px solid #A6D0DD;
-        background-color: #A6D0DD ;
-        border-radius: 5px;
-    }
-    form input#getMetamaskAddress-button {
-        width: 60px;
-        height: 18px;
-        border: 1px solid #A6D0DD;
-        background-color: #A6D0DD;
-        border-radius: 5px;
-    }
-}
