@@ -84,6 +84,62 @@ async function pushLetter(event) {
   }
 }
 
+async function pushLetter1(event) {
+  const title = document.getElementById("title").value;
+  const content = document.getElementById("content").value;
+  const publicDate = document.getElementById("publicDate").value;
+  const postid = localStorage.getItem("postid");
+  const publicDateObj = new Date(publicDate);
+  const now = new Date();
+
+  if (publicDateObj < now) {
+    alert("현재 시간 이후로 설정해주세요.");
+    return;
+  }
+
+  const publicTarget = document.getElementById("publicTarget").value;
+  let publicTargetMetamaskAdr = ""; // let으로 변수 선언
+
+  try {
+    const response = await fetch("/letterWrite/getTargetMetamaskAdr1", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ publicTarget, postid }),
+    });
+
+    if (response.ok) {
+      const res = await response.json();
+
+      if (res.state === 200) {
+        publicTargetMetamaskAdr = res.metamask_address;
+
+        const filename = `letter-${now}.txt`;
+        const fileContent = `Title: ${title}\n\n${content}`; // 제목과 내용을 결합하여 파일 내용을 생성합니다.
+        const file = new File([fileContent], filename, { type: "text/plain" });
+
+        const cid = await uploadFileToIpfs(file, filename);
+
+        alert("CID: " + cid);
+
+        // cid
+        console.log("cid: ", cid);
+        // 공개시간
+        console.log("publicDate: ", publicDate);
+        // 공개 대상 지갑주소
+        console.log("publicTarget: ", publicTargetMetamaskAdr);
+      } else {
+        alert("공개 대상 지갑주소를 다시 확인해주세요.");
+      }
+    } else {
+      alert("공개 대상 ID 조회에 실패하였습니다.");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 async function uploadFileToIpfs(file, filename) {
   const formData = new FormData();
   formData.append("file", file, filename);

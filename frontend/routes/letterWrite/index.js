@@ -65,4 +65,28 @@ router.post("/getTargetMetamaskAdr", async (req, res) => {
   }
 });
 
+router.post("/getTargetMetamaskAdr1", async (req, res) => {
+  try {
+    const { publicTarget, postid } = req.body;
+
+    const response = await axios.post(`${BACKEND_URL}/getTargetMetamaskAdr1`, {
+      publicTarget,
+      postid,
+    });
+    const { result, metamask_address } = response.data;
+
+    if (result === "success") {
+      res
+        .status(200)
+        .json({ state: 200, metamask_address, message: "주소 조회 성공" });
+    } else {
+      res.status(400).json({ state: 400, message: "주소 조회 실패" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
 module.exports = router;

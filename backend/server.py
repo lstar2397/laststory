@@ -217,6 +217,23 @@ def getTargetMetamaskAdr():
     else:
         return jsonify({'result': 'fail', 'message': '사용자를 찾을 수 없습니다.'}), 404
 
+# 유언장 게시 시 공개 대상 메타마스크 주소 반환
+@app.route('/getTargetMetamaskAdr1', methods=['POST'])
+def getTargetMetamaskAdr1():
+    data = request.get_json(cache=False)
+
+    target_ID = data['publicTarget']
+    postid = data['postid']
+
+    target_user = db.user.find_one({'username': target_ID})
+    
+    if target_user is not None:
+        target_metamask_address = target_user['metamask_address']
+        db.temp_post.delete_one({'postid': int(postid) })
+        return jsonify({'result': 'success', 'metamask_address': target_metamask_address}), 200
+    else:
+        return jsonify({'result': 'fail', 'message': '사용자를 찾을 수 없습니다.'}), 404
+
 
 if __name__ == '__main__':
     app.run(host=config['SERVER']['HOST'], port=config['SERVER']['PORT'])
