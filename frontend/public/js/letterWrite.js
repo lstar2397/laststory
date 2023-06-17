@@ -77,7 +77,7 @@ async function pushLetter(event) {
         alert("공개 대상 지갑주소를 다시 확인해주세요.");
       }
     } else {
-      throw new Error("공개 대상 지갑주소 확인 중 에러 발생");
+      alert("공개 대상 ID 조회에 실패하였습니다.");
     }
   } catch (err) {
     console.error(err);

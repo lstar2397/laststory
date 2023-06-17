@@ -111,13 +111,17 @@ function getMetamaskAddress() {
       })
       .catch(function (error) {
         console.log(error);
-        alert("MetaMask에서 주소를 가져오는 동안 오류가 발생했습니다.");
+        if (error.code === -32002) {
+          alert("MetaMask를 설치 및 로그인 해주세요.");
+          window.open(
+            "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+            "_blank"
+          );
+        } else {
+          alert("MetaMask에서 주소를 가져오는 동안 오류가 발생했습니다.");
+        }
       });
   } else {
-    alert("MetaMask를 설치 및 로그인 해주세요.");
-    window.open(
-      "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
-      "_blank"
-    );
+    alert("error: window.ethereum is undefined");
   }
 }
