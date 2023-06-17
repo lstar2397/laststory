@@ -209,7 +209,7 @@ def getTargetMetamaskAdr():
 
     target_ID = data['publicTarget']
 
-    target_user = db.user.find_one({'nickname': target_ID})
+    target_user = db.user.find_one({'username': target_ID})
     
     if target_user is not None:
         target_metamask_address = target_user['metamask_address']
