@@ -25,7 +25,7 @@
       <ul>
         <li><a href="letterWrite">유언장 작성</a></li>
         <li><a href="myLetterList ">내 유언장 리스트</a></li>
-        <li><a href="#">받은 유언장 리스트</a></li>
+        <li><a href="receiveLetterList">받은 유언장 리스트</a></li>
       </ul>
     </nav>
     <div id="login-box">
@@ -59,7 +59,7 @@
       <div class="letter-Private">
         <p>비공개 유언장는 작성자와 공개대상만 볼 수 있습니다.</p>
         <p>공개 시간</p>
-        <input type="date" name="publicDate" id="publicDate">
+        <input type="datetime-local" name="publicDate" id="publicDate">
         <p>공개 대상</p>
         <input type="email" name="publicTarget" id="publicTarget" class="publicTarget" placeholder="공개 대상을 입력하세요.">
       </div>
@@ -69,6 +69,6 @@
   </div>
   </div>
 </body>
-<script src="/js/letterWrite.js"></script>
 <script src="/js/contract.js"></script>
+<script src="/js/letterWrite.js"></script>
 </html>

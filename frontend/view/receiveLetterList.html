@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/css/letterWrite.css">
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <title>나의 유언장 목록</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <script src="/js/contract.js"></script>
 </head>
 
 <body>
@@ -36,14 +38,14 @@
         </div>
         <div class="body-container">
             <div id="menu-select-container">
-                <h3>나의 유언장 리스트</h3>
+                <h3>받은 유언장 리스트</h3>
             </div>
             <div class="myLetterList-container">
                 <table>
                     <thead class="thead-box">
                         <tr class="th-box">
                             <th>번호</th>
-                            <th>제목</th>
+                            <th>게시날짜</th>
                         </tr>
                     </thead>
                     <tbody class="myLetterList">
@@ -55,9 +57,33 @@
     </div>
 
     <script src="/js/logout.js"></script>
-    <script src="/js/myLetterListGet.js"></script>
     <script>
-        myLetterListGet();
+        async function renderLetterList() {
+            const letterPackets = await getLetterPacketsByReceiver();
+            const myLetterList = document.querySelector('.myLetterList');
+            letterPackets.forEach((letterPacket, index) => {
+                const tr = document.createElement('tr');
+                const td1 = document.createElement('td');
+                const td2 = document.createElement('td');
+                const a = document.createElement('a');
+                a.href = `/readLetter?id=${letterPacket.letterId}&publicationDate=${letterPacket.publicationDate}`;
+                a.innerText = letterPacket.publicationDate;
+                td1.innerText = index + 1;
+                td2.appendChild(a);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                myLetterList.appendChild(tr);
+            });
+        }
+
+        let timer = setInterval(() => {
+            if (contract) {
+                renderLetterList();
+                clearInterval(timer);
+            } else {
+                console.log('contract is not loaded');
+            }
+        }, 100);
     </script>
 </body>
 
