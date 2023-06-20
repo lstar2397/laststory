@@ -230,26 +230,26 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 });
 
-async function sendLetter(receiver, contentId, publicationDate, notificationSent) {
-  return await contract.methods.sendLetter(receiver, contentId, publicationDate, notificationSent).send({ from: userAccount });
+function sendLetter(receiver, contentId, publicationDate, notificationSent) {
+  return contract.methods.sendLetter(receiver, contentId, publicationDate, notificationSent).send({ from: userAccount });
 }
 
-async function receiveLetter(letterId) {
-  return await contract.methods.receiveLetter(letterId).send({ from: userAccount });
+function receiveLetter(letterId) {
+  return contract.methods.receiveLetter(letterId).send({ from: userAccount });
 }
 
-async function getLetterData(letterId) {
-  return await contract.methods.getLetterData(letterId).call({ from: userAccount });
+function getLetterData(letterId) {
+  return contract.methods.getLetterData(letterId).call({ from: userAccount });
 }
 
-async function getLetterPacketsByReceiver() {
-  return await contract.methods.getLetterPacketsByReceiver().call({ from: userAccount });
+function getLetterPacketsByReceiver() {
+  return contract.methods.getLetterPacketsByReceiver().call({ from: userAccount });
 }
 
-async function isLetterOwner() {
-  return await contract.methods.isLetterOwner().call({ from: userAccount });
+function isLetterOwner(letterId) {
+  return contract.methods.isLetterOwner(letterId).call({ from: userAccount });
 }
 
-async function isLetterReceiver() {
-  return await contract.methods.isLetterReceiver().call({ from: userAccount });
+function isLetterReceiver(letterId) {
+  return contract.methods.isLetterReceiver(letterId).call({ from: userAccount });
 }

@@ -32,11 +32,10 @@ document.addEventListener("DOMContentLoaded", function () {
 async function pushLetter(event) {
   const title = document.getElementById("title").value;
   const content = document.getElementById("content").value;
-  const publicDate = document.getElementById("publicDate").value;
-  const publicDateObj = new Date(publicDate);
-  const now = new Date();
+  const publicDate = new Date(document.getElementById("publicDate").value).valueOf();
+  const now = Date.now();
 
-  if (publicDateObj < now) {
+  if (publicDate < now) {
     alert("현재 시간 이후로 설정해주세요.");
     return;
   }
@@ -60,10 +59,11 @@ async function pushLetter(event) {
         publicTargetMetamaskAdr = res.metamask_address;
 
         const filename = `letter-${now}.txt`;
-        const fileContent = `Title: ${title}\n\n${content}`; // 제목과 내용을 결합하여 파일 내용을 생성합니다.
+        const fileContent = JSON.stringify({"title": title, "content": content});
         const file = new File([fileContent], filename, { type: "text/plain" });
 
         const cid = await uploadFileToIpfs(file, filename);
+        const timestamp = Math.floor(publicDate / 1000);
 
         alert("CID: " + cid);
 
@@ -73,6 +73,14 @@ async function pushLetter(event) {
         console.log("publicDate: ", publicDate);
         // 공개 대상 지갑주소
         console.log("publicTarget: ", publicTargetMetamaskAdr);
+
+        try {
+          await sendLetter(publicTargetMetamaskAdr, cid, timestamp, false);
+          alert("편지 전송에 성공하였습니다.");
+        } catch (err) {
+          alert("편지 전송에 실패하였습니다.");
+          console.error(err);
+        }
       } else {
         alert("공개 대상 지갑주소를 다시 확인해주세요.");
       }
@@ -116,7 +124,7 @@ async function pushLetter1(event) {
         publicTargetMetamaskAdr = res.metamask_address;
 
         const filename = `letter-${now}.txt`;
-        const fileContent = `Title: ${title}\n\n${content}`; // 제목과 내용을 결합하여 파일 내용을 생성합니다.
+        const fileContent = JSON.stringify({"title": title, "content": content});
         const file = new File([fileContent], filename, { type: "text/plain" });
 
         const cid = await uploadFileToIpfs(file, filename);
