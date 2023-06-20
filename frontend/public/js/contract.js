@@ -1,4 +1,4 @@
-const CONTRACT_ADDRESS = "0xb5648eb13c3aa40ff2d66a46aaa31c929c73a5eb";
+const CONTRACT_ADDRESS = "0x2E2E4871a78187cB02A048a69f53633541A91a4e";
 const CONTRACT_ABI = [
 	{
 		"anonymous": false,
@@ -84,6 +84,11 @@ const CONTRACT_ABI = [
 					},
 					{
 						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
 						"name": "receiver",
 						"type": "address"
 					},
@@ -96,6 +101,44 @@ const CONTRACT_ABI = [
 				"internalType": "struct LetterExchange.LetterPacket[]",
 				"name": "",
 				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_letterId",
+				"type": "uint256"
+			}
+		],
+		"name": "isLetterOwner",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_letterId",
+				"type": "uint256"
+			}
+		],
+		"name": "isLetterReceiver",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -201,4 +244,12 @@ async function getLetterData(letterId) {
 
 async function getLetterPacketsByReceiver() {
   return await contract.methods.getLetterPacketsByReceiver().call({ from: userAccount });
+}
+
+async function isLetterOwner() {
+  return await contract.methods.isLetterOwner().call({ from: userAccount });
+}
+
+async function isLetterReceiver() {
+  return await contract.methods.isLetterReceiver().call({ from: userAccount });
 }
