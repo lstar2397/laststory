@@ -1,4 +1,4 @@
-const CONTRACT_ADDRESS = "0xff2301036d387ba33cf135bfbb596f68077c381e";
+const CONTRACT_ADDRESS = "0xb5648eb13c3aa40ff2d66a46aaa31c929c73a5eb";
 const CONTRACT_ABI = [
 	{
 		"anonymous": false,
@@ -77,6 +77,11 @@ const CONTRACT_ABI = [
 		"outputs": [
 			{
 				"components": [
+					{
+						"internalType": "uint256",
+						"name": "letterId",
+						"type": "uint256"
+					},
 					{
 						"internalType": "address",
 						"name": "receiver",
